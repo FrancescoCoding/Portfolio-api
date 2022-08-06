@@ -14,7 +14,7 @@ app.use("/", (req, res) => {
 
 app
   .get("/api", (req, res) => {
-    res.send("Hello World <h1> from Express </h1>");
+    res.json(projects);
   })
   .listen(port, () => {
     console.log(`Server started on port ${port}`);
