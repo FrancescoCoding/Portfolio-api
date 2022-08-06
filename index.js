@@ -5,7 +5,9 @@ const projects = require("./routes/projects-api");
 const port = process.env.PORT || 5000;
 
 app.use("/", (req, res) => {
-  res.redirect("/api");
+  // send filed from dist/index.html
+  res.sendFile(__dirname + "/dist/index.html");
+  // res.redirect("/api");
 });
 
 // app.use("/api", projects);
