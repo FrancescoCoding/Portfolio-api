@@ -5,6 +5,7 @@ const projects = require("./routes/projects-api");
 const port = process.env.PORT || 5000;
 
 app.use("/", (req, res) => {
+  console.log("Hello World");
   res.redirect("/api");
 });
 
