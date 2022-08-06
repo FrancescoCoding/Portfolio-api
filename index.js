@@ -1,10 +1,14 @@
 const express = require("express");
 const app = express();
-const projects = require("./routes/projects");
+const projects = require("./routes/projects-api");
 
 const port = process.env.PORT || 5000;
 
-app.use("/api/projects", projects);
+app.use("/", (req, res) => {
+  res.redirect("/api");
+});
+
+app.use("/api", projects);
 
 app
   .get("/api", (req, res) => {
