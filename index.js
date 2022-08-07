@@ -14,7 +14,11 @@ app.use("/", (req, res) => {
 
 app
   .use("/api", (req, res) => {
-    res.json(projects);
+    // respond with a view of the endpoint and the projects
+    res.send(`<h1>API</h1>
+    <ul>
+      <li><a href="/api/projects">/api/projects</a></li>
+    </ul>`);
   })
   .listen(port, () => {
     console.log(`Server started on port ${port}`);

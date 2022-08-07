@@ -240,7 +240,6 @@ const projects = [
   },
 ];
 
-// make projects into json
 const projectsJSON = JSON.stringify(projects);
 
 router.get("/", (req, res) => {
