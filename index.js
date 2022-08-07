@@ -13,8 +13,7 @@ app.use("/", (req, res) => {
 // app.use("/api", projects);
 
 app
-  .get("/api", (req, res) => {
-    res.send("Hello World");
+  .use("/api", (req, res) => {
     res.json(projects);
   })
   .listen(port, () => {
