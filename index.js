@@ -20,6 +20,8 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use("/", express.static(__dirname + "/dist"));
+
 app.use("/projects", projects);
 
 app.listen(port, () => console.log(`Listening on port ${port}`));
