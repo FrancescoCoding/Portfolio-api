@@ -2,22 +2,22 @@ import express from "express";
 
 const projectsController = require("../controllers/projectsController");
 
-const router = express.Router();
+const projectsRoutes = express.Router();
 
-router.get("/", (req, res, next) => {
+projectsRoutes.get("/projects", (req, res, next) => {
   projectsController.getAllProjects(req, res, next);
 }),
-  router.get("/:projectId", (req, res, next) => {
+  projectsRoutes.get("/projects/:_id", (req, res, next) => {
     projectsController.getProject(req, res, next);
   }),
-  router.post("/", (req, res, next) => {
+  projectsRoutes.post("/projects", (req, res, next) => {
     projectsController.createProject(req, res, next);
-  }),
-  router.put("/:projectId", (req, res, next) => {
-    projectsController.updateProject(req, res, next);
-  }),
-  router.delete("/:projectId", (req, res, next) => {
-    projectsController.deleteProject(req, res, next);
   });
+// projectsRoutes.put("/projects/:projectId", (req, res, next) => {
+//   projectsController.updateProject(req, res, next);
+// }),
+// projectsRoutes.delete("/projects/:projectId", (req, res, next) => {
+//   projectsController.deleteProject(req, res, next);
+// });
 
-export default router;
+export default projectsRoutes;
