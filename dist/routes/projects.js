@@ -7,18 +7,18 @@ const express_1 = __importDefault(require("express"));
 const projectsController = require("../controllers/projectsController");
 const projectsRoutes = express_1.default.Router();
 projectsRoutes.get("/projects", (req, res, next) => {
-    projectsController.getAllProjects(req, res, next);
+    projectsController.getAllProjectsHandler(req, res, next);
 }),
     projectsRoutes.get("/projects/:projectId", (req, res, next) => {
-        projectsController.getProject(req, res, next);
+        projectsController.getProjectByIdHandler(req, res, next);
     }),
     projectsRoutes.post("/projects", (req, res, next) => {
-        projectsController.createProject(req, res, next);
+        projectsController.createProjectHandler(req, res, next);
     }),
     projectsRoutes.put("/projects/:projectId", (req, res, next) => {
-        projectsController.updateProject(req, res, next);
+        projectsController.updateProjectHandler(req, res, next);
     }),
     projectsRoutes.delete("/projects/:projectId", (req, res, next) => {
-        projectsController.deleteProject(req, res, next);
+        projectsController.deleteProjectHandler(req, res, next);
     });
 exports.default = projectsRoutes;

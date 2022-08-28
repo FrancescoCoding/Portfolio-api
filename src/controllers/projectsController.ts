@@ -1,33 +1,32 @@
 import { Request, Response, NextFunction } from "express";
 const asyncHandler = require("express-async-handler");
 
-// Project model and schema
-import ProjectModel from "../models/projectModel";
-import { ProjectBody, ProjectParams } from "../types/projectTypes";
+import {
+  getAllProjects,
+  getProjectById,
+  createProject,
+  deleteProject,
+  updateProject,
+} from "../services/projectServices";
 
-//@desc   Get all projects
-//@route  GET /api/v1/projects
+//@desc Get all projects
+//@route GET /api/v1/projects
 //@access Public
-exports.getAllProjects = asyncHandler(
+exports.getAllProjectsHandler = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
-    const projects = await ProjectModel.find();
+    const projects = await getAllProjects();
     res.status(200).json(projects);
   }
 );
 
-//@desc Get a single project
+//@desc Get a single project by id
 //@route GET /api/projects/:projectId
 //@access Public
-exports.getProject = asyncHandler(
+exports.getProjectByIdHandler = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
-    const params = req.params as ProjectParams;
+    const projectId = req.params.projectId;
 
-    const project = await ProjectModel.findById(params.projectId);
-
-    if (!project) {
-      res.status(404);
-      throw new Error("Project not found");
-    }
+    const project = await getProjectById(projectId);
 
     res.status(200).json({ project });
   }
@@ -36,64 +35,39 @@ exports.getProject = asyncHandler(
 //@desc Create a project
 //@route POST /api/projects
 //@access Private
-exports.createProject = asyncHandler(
+exports.createProjectHandler = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
-    const body = req.body as ProjectBody;
+    const projectBody = req.body;
 
-    if (!body) {
-      res.status(400);
-      throw new Error("Project body is required");
-    }
+    const createdProject = await createProject(projectBody);
 
-    const project = await ProjectModel.create(body);
-
-    if (!project) {
-      res.status(400);
-      throw new Error("Project could not be created");
-    }
-
-    res.status(201).json({ project });
+    res.status(201).json({ createdProject });
   }
 );
 
-//@desc   Update a project
-//@route  PUT /api/projects/:projectId
+//@desc Update a project
+//@route PUT /api/projects/:projectId
 //@access Private
-exports.updateProject = asyncHandler(
+exports.updateProjectHandler = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
-    const params = req.params as ProjectParams;
-    const body = req.body as ProjectBody;
+    const projectBody = req.body;
+    const projectId = req.params.projectId;
 
-    const project = await ProjectModel.findByIdAndUpdate(
-      params.projectId,
-      body,
-      {
-        new: true,
-        runValidators: true,
-      }
-    );
-
-    if (!project) {
-      return res.status(404).json({ message: "Project not found" });
-    }
+    const project = await updateProject(projectId, projectBody);
 
     res.status(200).json({ project });
   }
 );
 
-//@desc   Delete a project
-//@route  DELETE /api/projects/:projectId
+//@desc Delete a project
+//@route DELETE /api/projects/:projectId
 //@access Private
-exports.deleteProject = asyncHandler(
+exports.deleteProjectHandler = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
-    const params = req.params as ProjectParams;
+    const projectId = req.params.projectId;
 
-    const project = await ProjectModel.findByIdAndDelete(params.projectId);
+    const project = await deleteProject(projectId);
 
-    if (!project) {
-      return res.status(404).json({ message: "Project not found" });
-    }
-
-    res.status(200).json({ message: "Project deleted" });
+    res.status(200).json({ message: `Project ${projectId} deleted`, project });
   }
 );

@@ -12,9 +12,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.connectDB = void 0;
+exports.isObjectIdValid = exports.connectDB = void 0;
 const mongoose_1 = __importDefault(require("mongoose"));
 const config_1 = require("../utils/config");
+const httpException_1 = __importDefault(require("../utils/httpException"));
 const connectDB = () => __awaiter(void 0, void 0, void 0, function* () {
     if (!config_1.MONGO_URI) {
         console.log("Mongo URI is required");
@@ -30,3 +31,9 @@ const connectDB = () => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.connectDB = connectDB;
+function isObjectIdValid(id) {
+    if (!mongoose_1.default.Types.ObjectId.isValid(id)) {
+        throw new httpException_1.default(`${id} is not a valid id`, 400);
+    }
+}
+exports.isObjectIdValid = isObjectIdValid;

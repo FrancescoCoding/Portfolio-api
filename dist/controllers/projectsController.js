@@ -8,71 +8,46 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 const asyncHandler = require("express-async-handler");
-// Project model and schema
-const projectModel_1 = __importDefault(require("../models/projectModel"));
+const projectServices_1 = require("../services/projectServices");
 //@desc   Get all projects
 //@route  GET /api/v1/projects
 //@access Public
-exports.getAllProjects = asyncHandler((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    const projects = yield projectModel_1.default.find();
+exports.getAllProjectsHandler = asyncHandler((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const projects = yield (0, projectServices_1.getAllProjects)();
     res.status(200).json(projects);
 }));
-//@desc Get a single project
+//@desc Get a single project by id
 //@route GET /api/projects/:projectId
 //@access Public
-exports.getProject = asyncHandler((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    const params = req.params;
-    const project = yield projectModel_1.default.findById(params.projectId);
-    if (!project) {
-        res.status(404);
-        throw new Error("Project not found");
-    }
+exports.getProjectByIdHandler = asyncHandler((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const projectId = req.params.projectId;
+    const project = yield (0, projectServices_1.getProjectById)(projectId);
     res.status(200).json({ project });
 }));
 //@desc Create a project
 //@route POST /api/projects
 //@access Private
-exports.createProject = asyncHandler((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    const body = req.body;
-    if (!body) {
-        res.status(400);
-        throw new Error("Project body is required");
-    }
-    const project = yield projectModel_1.default.create(body);
-    if (!project) {
-        res.status(400);
-        throw new Error("Project could not be created");
-    }
-    res.status(201).json({ project });
+exports.createProjectHandler = asyncHandler((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const projectBody = req.body;
+    const createdProject = yield (0, projectServices_1.createProject)(projectBody);
+    res.status(201).json({ createdProject });
 }));
 //@desc   Update a project
 //@route  PUT /api/projects/:projectId
 //@access Private
-exports.updateProject = asyncHandler((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    const params = req.params;
-    const body = req.body;
-    const project = yield projectModel_1.default.findByIdAndUpdate(params.projectId, body, {
-        new: true,
-        runValidators: true,
-    });
-    if (!project) {
-        return res.status(404).json({ message: "Project not found" });
-    }
+exports.updateProjectHandler = asyncHandler((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const projectBody = req.body;
+    const projectId = req.params.projectId;
+    const project = yield (0, projectServices_1.updateProject)(projectId, projectBody);
     res.status(200).json({ project });
 }));
 //@desc   Delete a project
 //@route  DELETE /api/projects/:projectId
 //@access Private
-exports.deleteProject = asyncHandler((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    const params = req.params;
-    const project = yield projectModel_1.default.findByIdAndDelete(params.projectId);
-    if (!project) {
-        return res.status(404).json({ message: "Project not found" });
-    }
-    res.status(200).json({ message: "Project deleted" });
+exports.deleteProjectHandler = asyncHandler((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const projectId = req.params.projectId;
+    const project = yield (0, projectServices_1.deleteProject)(projectId);
+    res.status(200).json({ message: `Project ${projectId} deleted`, project });
 }));

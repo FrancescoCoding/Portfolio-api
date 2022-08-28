@@ -2,7 +2,7 @@ import { Schema } from "mongoose";
 import { ProjectBody } from "../types/projectTypes";
 
 export interface IProjectSchema extends ProjectBody {
-  _id: string;
+  projectId: string;
 }
 
 const ProjectSchema = new Schema<ProjectBody>(
