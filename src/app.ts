@@ -14,6 +14,10 @@ app.use(bodyParser.json());
 
 app.use("/api", projectsRoutes);
 
+app.get("/", (req, res) => {
+  res.send("<h1>Hello World</h1>");
+});
+
 app.use(errorHandler);
 
 app.listen(process.env.PORT || 3000, () => {
