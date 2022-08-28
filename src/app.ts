@@ -3,7 +3,7 @@ import bodyParser from "body-parser";
 import "dotenv/config";
 
 import { connectDB } from "./database/db";
-import projectsRoutes from "./routes/projects";
+import projectsRoutes from "./routes/projectRoutes";
 import { errorHandler } from "./middleware/errorMiddleware";
 
 connectDB();
