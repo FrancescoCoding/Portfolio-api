@@ -13,8 +13,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteProject = exports.updateProject = exports.getProjectById = exports.createProject = exports.getAllProjects = void 0;
-const db_1 = require("../database/db");
 const projectModel_1 = __importDefault(require("../models/projectModel"));
+const db_1 = require("../database/db");
+const projectSanitizer_1 = require("../sanitizers/projectSanitizer");
 function getAllProjects() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -32,8 +33,9 @@ function getAllProjects() {
 exports.getAllProjects = getAllProjects;
 function createProject(project) {
     return __awaiter(this, void 0, void 0, function* () {
+        const sanitizedProject = (0, projectSanitizer_1.sanitizeProject)(project);
         try {
-            const newProject = yield projectModel_1.default.create(project);
+            const newProject = yield projectModel_1.default.create(sanitizedProject);
             if (!newProject) {
                 throw new Error("Project could not be created");
             }
@@ -47,8 +49,8 @@ function createProject(project) {
 exports.createProject = createProject;
 function getProjectById(projectId) {
     return __awaiter(this, void 0, void 0, function* () {
+        (0, db_1.isObjectIdValid)(projectId);
         try {
-            (0, db_1.isObjectIdValid)(projectId);
             const project = yield projectModel_1.default.findById(projectId);
             if (!project) {
                 throw new Error("Project could not be found");
@@ -63,9 +65,10 @@ function getProjectById(projectId) {
 exports.getProjectById = getProjectById;
 function updateProject(projectId, project) {
     return __awaiter(this, void 0, void 0, function* () {
+        (0, db_1.isObjectIdValid)(projectId);
+        const sanitizedProject = (0, projectSanitizer_1.sanitizeProject)(project);
         try {
-            (0, db_1.isObjectIdValid)(projectId);
-            const updatedProject = yield projectModel_1.default.findByIdAndUpdate(projectId, project, { new: true });
+            const updatedProject = yield projectModel_1.default.findByIdAndUpdate(projectId, sanitizedProject, { new: true });
             if (!updatedProject) {
                 throw new Error("Project could not be updated");
             }
@@ -79,8 +82,8 @@ function updateProject(projectId, project) {
 exports.updateProject = updateProject;
 function deleteProject(projectId) {
     return __awaiter(this, void 0, void 0, function* () {
+        (0, db_1.isObjectIdValid)(projectId);
         try {
-            (0, db_1.isObjectIdValid)(projectId);
             const project = yield projectModel_1.default.findByIdAndDelete(projectId);
             if (!project) {
                 throw new Error("Project could not be deleted");

@@ -2,6 +2,7 @@ import ProjectModel from "../models/projectModel";
 import { ProjectBody } from "../types/projectTypes";
 import { IProjectSchema } from "../schema/projectSchema";
 import { isObjectIdValid } from "../database/db";
+import { sanitizeProject } from "../sanitizers/projectSanitizer";
 
 export async function getAllProjects(): Promise<ProjectBody[]> {
   try {
@@ -20,8 +21,10 @@ export async function getAllProjects(): Promise<ProjectBody[]> {
 export async function createProject(
   project: ProjectBody
 ): Promise<ProjectBody> {
+  const sanitizedProject = sanitizeProject(project);
+
   try {
-    const newProject = await ProjectModel.create(project);
+    const newProject = await ProjectModel.create(sanitizedProject);
 
     if (!newProject) {
       throw new Error("Project could not be created");
@@ -36,9 +39,9 @@ export async function createProject(
 export async function getProjectById(
   projectId: string
 ): Promise<IProjectSchema> {
-  try {
-    isObjectIdValid(projectId);
+  isObjectIdValid(projectId);
 
+  try {
     const project = await ProjectModel.findById(projectId);
 
     if (!project) {
@@ -55,12 +58,14 @@ export async function updateProject(
   projectId: string,
   project: ProjectBody
 ): Promise<IProjectSchema> {
-  try {
-    isObjectIdValid(projectId);
+  isObjectIdValid(projectId);
 
+  const sanitizedProject = sanitizeProject(project);
+
+  try {
     const updatedProject = await ProjectModel.findByIdAndUpdate(
       projectId,
-      project,
+      sanitizedProject,
       { new: true }
     );
 
@@ -75,9 +80,9 @@ export async function updateProject(
 }
 
 export async function deleteProject(projectId: string): Promise<void> {
-  try {
-    isObjectIdValid(projectId);
+  isObjectIdValid(projectId);
 
+  try {
     const project = await ProjectModel.findByIdAndDelete(projectId);
 
     if (!project) {

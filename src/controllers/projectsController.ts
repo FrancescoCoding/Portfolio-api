@@ -50,8 +50,8 @@ exports.createProjectHandler = asyncHandler(
 //@access Private
 exports.updateProjectHandler = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
-    const projectBody = req.body;
     const projectId = req.params.projectId;
+    const projectBody = req.body;
 
     const project = await updateProject(projectId, projectBody);
 

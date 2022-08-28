@@ -11,8 +11,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const asyncHandler = require("express-async-handler");
 const projectServices_1 = require("../services/projectServices");
-//@desc   Get all projects
-//@route  GET /api/v1/projects
+//@desc Get all projects
+//@route GET /api/v1/projects
 //@access Public
 exports.getAllProjectsHandler = asyncHandler((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const projects = yield (0, projectServices_1.getAllProjects)();
@@ -34,17 +34,17 @@ exports.createProjectHandler = asyncHandler((req, res, next) => __awaiter(void 0
     const createdProject = yield (0, projectServices_1.createProject)(projectBody);
     res.status(201).json({ createdProject });
 }));
-//@desc   Update a project
-//@route  PUT /api/projects/:projectId
+//@desc Update a project
+//@route PUT /api/projects/:projectId
 //@access Private
 exports.updateProjectHandler = asyncHandler((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    const projectBody = req.body;
     const projectId = req.params.projectId;
+    const projectBody = req.body;
     const project = yield (0, projectServices_1.updateProject)(projectId, projectBody);
     res.status(200).json({ project });
 }));
-//@desc   Delete a project
-//@route  DELETE /api/projects/:projectId
+//@desc Delete a project
+//@route DELETE /api/projects/:projectId
 //@access Private
 exports.deleteProjectHandler = asyncHandler((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const projectId = req.params.projectId;
