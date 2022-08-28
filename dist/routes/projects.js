@@ -9,16 +9,16 @@ const projectsRoutes = express_1.default.Router();
 projectsRoutes.get("/projects", (req, res, next) => {
     projectsController.getAllProjects(req, res, next);
 }),
-    projectsRoutes.get("/projects/:_id", (req, res, next) => {
+    projectsRoutes.get("/projects/:projectId", (req, res, next) => {
         projectsController.getProject(req, res, next);
     }),
     projectsRoutes.post("/projects", (req, res, next) => {
         projectsController.createProject(req, res, next);
+    }),
+    projectsRoutes.put("/projects/:projectId", (req, res, next) => {
+        projectsController.updateProject(req, res, next);
+    }),
+    projectsRoutes.delete("/projects/:projectId", (req, res, next) => {
+        projectsController.deleteProject(req, res, next);
     });
-// projectsRoutes.put("/projects/:projectId", (req, res, next) => {
-//   projectsController.updateProject(req, res, next);
-// }),
-// projectsRoutes.delete("/projects/:projectId", (req, res, next) => {
-//   projectsController.deleteProject(req, res, next);
-// });
 exports.default = projectsRoutes;
