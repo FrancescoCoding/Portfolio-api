@@ -1,7 +1,7 @@
-import { isObjectIdValid } from "../database/db";
 import ProjectModel from "../models/projectModel";
-import { IProjectSchema } from "../schema/projectSchema";
 import { ProjectBody } from "../types/projectTypes";
+import { IProjectSchema } from "../schema/projectSchema";
+import { isObjectIdValid } from "../database/db";
 
 export async function getAllProjects(): Promise<ProjectBody[]> {
   try {
