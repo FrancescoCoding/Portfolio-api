@@ -8,15 +8,18 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const asyncHandler = require("express-async-handler");
 // Project model and schema
-const Project = require("../models/project");
+const projectModel_1 = __importDefault(require("../models/projectModel"));
 //@desc   Get all projects
 //@route  GET /api/v1/projects
 //@access Public
 exports.getAllProjects = asyncHandler((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    const projects = yield Project.find();
+    const projects = yield projectModel_1.default.find();
     res.status(200).json(projects);
 }));
 //@desc Get a single project
@@ -24,7 +27,7 @@ exports.getAllProjects = asyncHandler((req, res, next) => __awaiter(void 0, void
 //@access Public
 exports.getProject = asyncHandler((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const params = req.params;
-    const project = yield Project.findById(params.projectId);
+    const project = yield projectModel_1.default.findById(params.projectId);
     if (!project) {
         res.status(404);
         throw new Error("Project not found");
@@ -40,7 +43,7 @@ exports.createProject = asyncHandler((req, res, next) => __awaiter(void 0, void 
         res.status(400);
         throw new Error("Project body is required");
     }
-    const project = yield Project.create(body);
+    const project = yield projectModel_1.default.create(body);
     if (!project) {
         res.status(400);
         throw new Error("Project could not be created");
@@ -53,7 +56,7 @@ exports.createProject = asyncHandler((req, res, next) => __awaiter(void 0, void 
 exports.updateProject = asyncHandler((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const params = req.params;
     const body = req.body;
-    const project = yield Project.findByIdAndUpdate(params.projectId, body, {
+    const project = yield projectModel_1.default.findByIdAndUpdate(params.projectId, body, {
         new: true,
         runValidators: true,
     });
@@ -67,7 +70,7 @@ exports.updateProject = asyncHandler((req, res, next) => __awaiter(void 0, void 
 //@access Private
 exports.deleteProject = asyncHandler((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const params = req.params;
-    const project = yield Project.findByIdAndDelete(params.projectId);
+    const project = yield projectModel_1.default.findByIdAndDelete(params.projectId);
     if (!project) {
         return res.status(404).json({ message: "Project not found" });
     }

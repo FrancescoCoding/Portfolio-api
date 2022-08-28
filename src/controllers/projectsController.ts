@@ -2,15 +2,15 @@ import { Request, Response, NextFunction } from "express";
 const asyncHandler = require("express-async-handler");
 
 // Project model and schema
-const Project = require("../models/project");
-import { ProjectBody, ProjectParams } from "../types/project";
+import ProjectModel from "../models/projectModel";
+import { ProjectBody, ProjectParams } from "../types/projectTypes";
 
 //@desc   Get all projects
 //@route  GET /api/v1/projects
 //@access Public
 exports.getAllProjects = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
-    const projects = await Project.find();
+    const projects = await ProjectModel.find();
     res.status(200).json(projects);
   }
 );
@@ -22,7 +22,7 @@ exports.getProject = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
     const params = req.params as ProjectParams;
 
-    const project = await Project.findById(params.projectId);
+    const project = await ProjectModel.findById(params.projectId);
 
     if (!project) {
       res.status(404);
@@ -45,7 +45,7 @@ exports.createProject = asyncHandler(
       throw new Error("Project body is required");
     }
 
-    const project = await Project.create(body);
+    const project = await ProjectModel.create(body);
 
     if (!project) {
       res.status(400);
@@ -64,10 +64,14 @@ exports.updateProject = asyncHandler(
     const params = req.params as ProjectParams;
     const body = req.body as ProjectBody;
 
-    const project = await Project.findByIdAndUpdate(params.projectId, body, {
-      new: true,
-      runValidators: true,
-    });
+    const project = await ProjectModel.findByIdAndUpdate(
+      params.projectId,
+      body,
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
 
     if (!project) {
       return res.status(404).json({ message: "Project not found" });
@@ -84,7 +88,7 @@ exports.deleteProject = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
     const params = req.params as ProjectParams;
 
-    const project = await Project.findByIdAndDelete(params.projectId);
+    const project = await ProjectModel.findByIdAndDelete(params.projectId);
 
     if (!project) {
       return res.status(404).json({ message: "Project not found" });
