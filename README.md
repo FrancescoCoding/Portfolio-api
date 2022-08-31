@@ -10,7 +10,7 @@ Link: [**Live API**](https://francesco-api.herokuapp.com/api/projects)
 - 💪 Use of the best **_REST practices_**  
 - 📧 **_Postman_** for creating and testing the API  
 - 🚯 User input **_sanitation_**  
-- 🔑 Authentication & JWT Tokens
+- 🔑 Authentication & JWT Tokens (**_jsonwebtoken_**, **_bcryptjs_**)
 
 
 ### Postman playground:
