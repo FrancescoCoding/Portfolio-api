@@ -1,12 +1,13 @@
 import { ProjectBody } from "../types/projectTypes";
+import { removeScriptTags } from "./utils";
 import HttpException from "../utils/httpException";
 
-export function sanitizeProject(body: ProjectBody) {
+export function sanitizeProject(project: ProjectBody) {
   let sanitizedProject = <ProjectBody>{};
 
-  sanitizedProject.name = removeScriptTags(titleSanitizer(body.name));
+  sanitizedProject.name = removeScriptTags(titleSanitizer(project.name));
   sanitizedProject.description = removeScriptTags(
-    descriptionSanitizer(body.description)
+    descriptionSanitizer(project.description)
   );
   return sanitizedProject;
 }
@@ -49,16 +50,4 @@ function descriptionSanitizer(description: string) {
   }
 
   return removeScriptTags(description.replace(/[<>]/g, ""));
-}
-
-function removeScriptTags(userInput: string) {
-  if (userInput.includes("<script>")) {
-    throw new HttpException("User inputs cannot contain <script> tags 😡", 418);
-  }
-
-  if (userInput.includes("<") && userInput.includes(">")) {
-    throw new HttpException("User inputs cannot contain html tags 😡", 418);
-  }
-
-  return userInput.replace(/<[^>]*>/g, "").trim();
 }

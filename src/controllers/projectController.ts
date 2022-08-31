@@ -7,7 +7,7 @@ import {
   createProject,
   deleteProject,
   updateProject,
-} from "../services/projectServices";
+} from "../services/projectService";
 
 //@desc Get all projects
 //@route GET /api/v1/projects

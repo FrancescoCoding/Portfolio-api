@@ -4,21 +4,16 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-const projectsController = require("../controllers/projectsController");
-const projectsRoutes = express_1.default.Router();
-projectsRoutes.get("/projects", (req, res, next) => {
-    projectsController.getAllProjectsHandler(req, res, next);
-}),
-    projectsRoutes.get("/projects/:projectId", (req, res, next) => {
-        projectsController.getProjectByIdHandler(req, res, next);
-    }),
-    projectsRoutes.post("/projects", (req, res, next) => {
-        projectsController.createProjectHandler(req, res, next);
-    }),
-    projectsRoutes.put("/projects/:projectId", (req, res, next) => {
-        projectsController.updateProjectHandler(req, res, next);
-    }),
-    projectsRoutes.delete("/projects/:projectId", (req, res, next) => {
-        projectsController.deleteProjectHandler(req, res, next);
-    });
-exports.default = projectsRoutes;
+const projectController = require("../controllers/projectController");
+const { getAllProjectsHandler, getProjectByIdHandler, createProjectHandler, updateProjectHandler, deleteProjectHandler, } = projectController;
+const projectRoutes = express_1.default.Router();
+projectRoutes
+    .route("/projects")
+    .get(getAllProjectsHandler)
+    .post(createProjectHandler),
+    projectRoutes
+        .route("/projects/:projectId")
+        .get(getProjectByIdHandler)
+        .put(updateProjectHandler)
+        .delete(deleteProjectHandler);
+exports.default = projectRoutes;

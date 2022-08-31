@@ -14,7 +14,7 @@ export async function getAllProjects(): Promise<ProjectBody[]> {
 
     return projects;
   } catch (error) {
-    throw new Error("Projects not found");
+    throw new Error(`Projects not found: ${error}`);
   }
 }
 
@@ -32,7 +32,7 @@ export async function createProject(
 
     return newProject;
   } catch (error) {
-    throw new Error("Error creating the project");
+    throw new Error(`Error creating the project: ${error}`);
   }
 }
 
@@ -50,7 +50,7 @@ export async function getProjectById(
 
     return project;
   } catch (error) {
-    throw new Error("Error finding the project");
+    throw new Error(`Error finding the project: ${error}`);
   }
 }
 
@@ -75,7 +75,7 @@ export async function updateProject(
 
     return updatedProject;
   } catch (error) {
-    throw new Error("Error updating the project");
+    throw new Error(`Error updating the project: ${error}`);
   }
 }
 
@@ -91,6 +91,6 @@ export async function deleteProject(projectId: string): Promise<void> {
 
     return;
   } catch (error) {
-    throw new Error("Error deleting the project");
+    throw new Error(`Error deleting the project: ${error}`);
   }
 }

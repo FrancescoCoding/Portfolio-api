@@ -4,11 +4,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.sanitizeProject = void 0;
+const utils_1 = require("./utils");
 const httpException_1 = __importDefault(require("../utils/httpException"));
-function sanitizeProject(body) {
+function sanitizeProject(project) {
     let sanitizedProject = {};
-    sanitizedProject.name = removeScriptTags(titleSanitizer(body.name));
-    sanitizedProject.description = removeScriptTags(descriptionSanitizer(body.description));
+    sanitizedProject.name = (0, utils_1.removeScriptTags)(titleSanitizer(project.name));
+    sanitizedProject.description = (0, utils_1.removeScriptTags)(descriptionSanitizer(project.description));
     return sanitizedProject;
 }
 exports.sanitizeProject = sanitizeProject;
@@ -23,7 +24,7 @@ function titleSanitizer(title) {
     if (title.length < 3 || title.length > 50) {
         throw new httpException_1.default("Project name must be between 3 and 50 characters", 400);
     }
-    return removeScriptTags(title.replace(/[<>]/g, ""));
+    return (0, utils_1.removeScriptTags)(title.replace(/[<>]/g, ""));
 }
 function descriptionSanitizer(description) {
     if (!description) {
@@ -36,14 +37,5 @@ function descriptionSanitizer(description) {
     if (description.length < 3 || description.length > 200) {
         throw new httpException_1.default("Project description must be between 3 and 200 characters", 400);
     }
-    return removeScriptTags(description.replace(/[<>]/g, ""));
-}
-function removeScriptTags(userInput) {
-    if (userInput.includes("<script>")) {
-        throw new httpException_1.default("User inputs cannot contain <script> tags 😡", 418);
-    }
-    if (userInput.includes("<") && userInput.includes(">")) {
-        throw new httpException_1.default("User inputs cannot contain html tags 😡", 418);
-    }
-    return userInput.replace(/<[^>]*>/g, "").trim();
+    return (0, utils_1.removeScriptTags)(description.replace(/[<>]/g, ""));
 }

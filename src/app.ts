@@ -3,8 +3,10 @@ import bodyParser from "body-parser";
 import "dotenv/config";
 
 import { connectDB } from "./database/db";
-import projectsRoutes from "./routes/projectRoutes";
 import { errorHandler } from "./middleware/errorMiddleware";
+
+import projectRoutes from "./routes/projectRoutes";
+import userRoutes from "./routes/userRoutes";
 
 connectDB();
 
@@ -12,7 +14,8 @@ const app = express();
 
 app.use(bodyParser.json());
 
-app.use("/api", projectsRoutes);
+app.use("/api", projectRoutes);
+app.use("/api", userRoutes);
 
 app.use(errorHandler);
 
