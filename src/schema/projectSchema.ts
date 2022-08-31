@@ -1,11 +1,11 @@
 import { Schema } from "mongoose";
-import { ProjectBody } from "../types/projectTypes";
+import { ProjectType } from "../types/projectTypes";
 
-export interface IProjectSchema extends ProjectBody {
+export interface IProjectSchema extends ProjectType {
   projectId: string;
 }
 
-const ProjectSchema = new Schema<ProjectBody>(
+const ProjectSchema = new Schema<ProjectType>(
   {
     name: {
       unique: true,

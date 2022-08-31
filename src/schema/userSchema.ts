@@ -1,13 +1,13 @@
 import { Schema } from "mongoose";
-import { UserBody } from "../types/userTypes";
+import { UserType } from "../types/userTypes";
 
 import { emailRegex } from "../sanitizers/utils";
 
-export interface IUserSchema extends UserBody {
+export interface IUserSchema extends UserType {
   userId: string;
 }
 
-const UserSchema = new Schema<UserBody>(
+const UserSchema = new Schema<UserType>(
   {
     username: {
       type: String,

@@ -7,12 +7,9 @@ const express_1 = __importDefault(require("express"));
 const projectController = require("../controllers/projectController");
 const { getAllProjectsHandler, getProjectByIdHandler, createProjectHandler, updateProjectHandler, deleteProjectHandler, } = projectController;
 const projectRoutes = express_1.default.Router();
-projectRoutes
-    .route("/projects")
-    .get(getAllProjectsHandler)
-    .post(createProjectHandler),
+projectRoutes.route("/").get(getAllProjectsHandler).post(createProjectHandler),
     projectRoutes
-        .route("/projects/:projectId")
+        .route("/:projectId")
         .get(getProjectByIdHandler)
         .put(updateProjectHandler)
         .delete(deleteProjectHandler);

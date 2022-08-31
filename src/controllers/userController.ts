@@ -7,6 +7,7 @@ import {
   createUser,
   deleteUser,
   updateUser,
+  loginUser,
 } from "../services/userService";
 
 //@desc Get all users
@@ -34,7 +35,7 @@ exports.getUserByIdHandler = asyncHandler(
 
 //@desc Create a user
 //@route POST /api/users
-//@access Private
+//@access Public
 exports.createUserHandler = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
     const userBody = req.body;
@@ -70,5 +71,19 @@ exports.deleteUserHandler = asyncHandler(
     const user = await deleteUser(userId);
 
     res.status(200).json({ message: `User '${username}' deleted`, user });
+  }
+);
+
+//@desc Login a user
+//@route POST /api/users/login
+//@access Public
+exports.loginUserHandler = asyncHandler(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const userEmail = req.body.email;
+    const userPassword = req.body.password;
+
+    const user = await loginUser(userEmail, userPassword);
+
+    res.status(200).json({ user });
   }
 );

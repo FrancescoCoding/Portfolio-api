@@ -1,10 +1,10 @@
 import ProjectModel from "../models/projectModel";
-import { ProjectBody } from "../types/projectTypes";
+import { ProjectType } from "../types/projectTypes";
 import { IProjectSchema } from "../schema/projectSchema";
 import { isObjectIdValid } from "../database/db";
 import { sanitizeProject } from "../sanitizers/projectSanitizer";
 
-export async function getAllProjects(): Promise<ProjectBody[]> {
+export async function getAllProjects(): Promise<ProjectType[]> {
   try {
     const projects = await ProjectModel.find();
 
@@ -19,8 +19,8 @@ export async function getAllProjects(): Promise<ProjectBody[]> {
 }
 
 export async function createProject(
-  project: ProjectBody
-): Promise<ProjectBody> {
+  project: ProjectType
+): Promise<ProjectType> {
   const sanitizedProject = sanitizeProject(project);
 
   try {
@@ -56,7 +56,7 @@ export async function getProjectById(
 
 export async function updateProject(
   projectId: string,
-  project: ProjectBody
+  project: ProjectType
 ): Promise<IProjectSchema> {
   isObjectIdValid(projectId);
 

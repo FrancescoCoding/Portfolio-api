@@ -12,12 +12,9 @@ const {
 
 const projectRoutes = express.Router();
 
-projectRoutes
-  .route("/projects")
-  .get(getAllProjectsHandler)
-  .post(createProjectHandler),
+projectRoutes.route("/").get(getAllProjectsHandler).post(createProjectHandler),
   projectRoutes
-    .route("/projects/:projectId")
+    .route("/:projectId")
     .get(getProjectByIdHandler)
     .put(updateProjectHandler)
     .delete(deleteProjectHandler);

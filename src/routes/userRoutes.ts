@@ -8,13 +8,15 @@ const {
   getUserByIdHandler,
   updateUserHandler,
   deleteUserHandler,
+  loginUserHandler,
 } = userController;
 
 const userRoutes = express.Router();
 
-userRoutes.route("/users").get(getAllUsersHandler).post(createUserHandler),
+userRoutes.route("/").get(getAllUsersHandler).post(createUserHandler),
+  userRoutes.route("/login").post(loginUserHandler),
   userRoutes
-    .route("/users/:userId")
+    .route("/:userId")
     .get(getUserByIdHandler)
     .put(updateUserHandler)
     .delete(deleteUserHandler);

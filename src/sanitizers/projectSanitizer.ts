@@ -1,9 +1,9 @@
-import { ProjectBody } from "../types/projectTypes";
+import { ProjectType } from "../types/projectTypes";
 import { removeScriptTags } from "./utils";
 import HttpException from "../utils/httpException";
 
-export function sanitizeProject(project: ProjectBody) {
-  let sanitizedProject = <ProjectBody>{};
+export function sanitizeProject(project: ProjectType) {
+  let sanitizedProject = <ProjectType>{};
 
   sanitizedProject.name = removeScriptTags(titleSanitizer(project.name));
   sanitizedProject.description = removeScriptTags(

@@ -28,7 +28,7 @@ exports.getUserByIdHandler = asyncHandler((req, res, next) => __awaiter(void 0, 
 }));
 //@desc Create a user
 //@route POST /api/users
-//@access Private
+//@access Public
 exports.createUserHandler = asyncHandler((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const userBody = req.body;
     const createdUser = yield (0, userService_1.createUser)(userBody);
@@ -51,4 +51,13 @@ exports.deleteUserHandler = asyncHandler((req, res, next) => __awaiter(void 0, v
     const username = yield (yield (0, userService_1.getUserById)(userId)).username;
     const user = yield (0, userService_1.deleteUser)(userId);
     res.status(200).json({ message: `User '${username}' deleted`, user });
+}));
+//@desc Login a user
+//@route POST /api/users/login
+//@access Public
+exports.loginUserHandler = asyncHandler((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const userEmail = req.body.email;
+    const userPassword = req.body.password;
+    const user = yield (0, userService_1.loginUser)(userEmail, userPassword);
+    res.status(200).json({ user });
 }));
