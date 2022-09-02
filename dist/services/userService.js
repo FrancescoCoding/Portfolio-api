@@ -14,10 +14,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.loginUser = exports.deleteUser = exports.updateUser = exports.getUserById = exports.createUser = exports.getAllUsers = void 0;
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
+const httpException_1 = __importDefault(require("../utils/httpException"));
 const userModel_1 = __importDefault(require("../models/userModel"));
 const db_1 = require("../database/db");
 const userSanitizer_1 = require("../sanitizers/userSanitizer");
-const httpException_1 = __importDefault(require("../utils/httpException"));
+const tokenService_1 = require("./tokenService");
 function getAllUsers() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -39,14 +40,29 @@ function createUser(user) {
         const salt = yield bcryptjs_1.default.genSalt(10);
         const hashedPassword = yield bcryptjs_1.default.hash(sanitizedUser.password, salt);
         try {
-            const newUser = yield userModel_1.default.create(Object.assign(Object.assign({}, sanitizedUser), { password: hashedPassword }));
-            if (!newUser) {
+            const newUser = yield userModel_1.default.create({
+                username: sanitizedUser.username,
+                email: sanitizedUser.email,
+                password: hashedPassword,
+                isAdmin: sanitizedUser.isAdmin,
+            });
+            if (!newUser)
                 throw new httpException_1.default("User not created", 400);
-            }
-            return newUser;
+            return {
+                _id: newUser._id,
+                username: newUser.username,
+                email: newUser.email,
+                isAdmin: newUser.isAdmin,
+                token: (0, tokenService_1.generateToken)({
+                    _id: newUser._id,
+                    username: newUser.username,
+                    email: newUser.email,
+                    isAdmin: newUser.isAdmin,
+                }),
+            };
         }
-        catch (error) {
-            throw new httpException_1.default(`Failed to create the user: ${error}`, 400);
+        catch (err) {
+            throw new httpException_1.default(`Failed to create user: ${err.message}`, 400);
         }
     });
 }
@@ -56,13 +72,12 @@ function getUserById(userId) {
         (0, db_1.isObjectIdValid)(userId);
         try {
             const user = yield userModel_1.default.findById(userId);
-            if (!user) {
+            if (!user)
                 throw new httpException_1.default("User not found", 404);
-            }
             return user;
         }
-        catch (error) {
-            throw new httpException_1.default(`Error finding the user: ${error}`, 400);
+        catch (err) {
+            throw new httpException_1.default(`Failed to get user: ${err.message}`, 400);
         }
     });
 }
@@ -73,13 +88,12 @@ function updateUser(userId, user) {
         const sanitizedUser = (0, userSanitizer_1.sanitizeUser)(user);
         try {
             const updatedUser = yield userModel_1.default.findByIdAndUpdate(userId, sanitizedUser, { new: true });
-            if (!updatedUser) {
+            if (!updatedUser)
                 throw new httpException_1.default("User not found", 404);
-            }
             return updatedUser;
         }
-        catch (error) {
-            throw new httpException_1.default(`Error updating the user: ${error}`, 400);
+        catch (err) {
+            throw new httpException_1.default(`Failed to update user: ${err.message}`, 400);
         }
     });
 }
@@ -110,7 +124,18 @@ function loginUser(email, password) {
             const isPasswordValid = yield bcryptjs_1.default.compare(sanitizedUser.password, user.password);
             if (!isPasswordValid)
                 throw new httpException_1.default("Password is invalid", 401);
-            return user;
+            return {
+                _id: user._id,
+                username: user.username,
+                email: user.email,
+                isAdmin: user.isAdmin,
+                token: (0, tokenService_1.generateToken)({
+                    _id: user._id,
+                    username: user.username,
+                    email: user.email,
+                    isAdmin: user.isAdmin,
+                }),
+            };
         }
         catch (err) {
             throw new httpException_1.default(`Failed to login user: ${err.message}`, 401);

@@ -1,17 +1,14 @@
 import { UserType } from "../types/userTypes";
-import { removeScriptTags } from "./utils";
 import { emailRegex } from "./utils";
 import HttpException from "../utils/httpException";
-import jwt from "jsonwebtoken";
-import bcrypt from "bcryptjs";
 
-export async function sanitizeUser(user: UserType): Promise<UserType> {
+export async function sanitizeUser(users: UserType): Promise<UserType> {
   let sanitizedUser = <UserType>{};
 
-  sanitizedUser.username = removeScriptTags(usernameSanitizer(user.username));
-  sanitizedUser.email = removeScriptTags(emailSanitizer(user.email));
-  sanitizedUser.isAdmin = isAdminSanitizer(user.isAdmin);
-  sanitizedUser.password = await passwordSanitizer(user.password);
+  sanitizedUser.username = usernameSanitizer(users.username);
+  sanitizedUser.email = emailSanitizer(users.email);
+  sanitizedUser.isAdmin = isAdminSanitizer(users.isAdmin);
+  sanitizedUser.password = await passwordSanitizer(users.password);
 
   return sanitizedUser;
 }
@@ -29,23 +26,16 @@ export async function sanitizeLoginUser(
 }
 
 function usernameSanitizer(username: string) {
-  if (!username) {
-    throw new HttpException("Username is required", 400);
+  if (username === undefined) {
+    throw new HttpException("Username is undefined", 400);
   }
   if (typeof username !== "string") {
-    throw new HttpException("Username must be a string", 400);
+    throw new HttpException("Username is not a string", 400);
   }
 
   username = username.trim();
 
-  if (username.length < 3 || username.length > 50) {
-    throw new HttpException(
-      "Username must be between 3 and 50 characters",
-      400
-    );
-  }
-
-  return removeScriptTags(username.replace(/[<>]/g, ""));
+  return username;
 }
 
 function emailSanitizer(email: string): string {
@@ -71,12 +61,12 @@ function emailSanitizer(email: string): string {
 }
 
 function isAdminSanitizer(isAdmin: boolean) {
-  if (!isAdmin) {
-    return false;
-  }
-
   if (typeof isAdmin !== "boolean") {
     throw new HttpException("IsAdmin must be a boolean", 400);
+  }
+
+  if (!isAdmin) {
+    return false;
   }
 
   return isAdmin;

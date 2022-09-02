@@ -14,14 +14,14 @@ const userService_1 = require("../services/userService");
 //@desc Get all users
 //@route GET /api/v1/users
 //@access Public
-exports.getAllUsersHandler = asyncHandler((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+exports.getAllUsersHandler = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const users = yield (0, userService_1.getAllUsers)();
     res.status(200).json(users);
 }));
 //@desc Get a single user by id
 //@route GET /api/users/:userId
 //@access Public
-exports.getUserByIdHandler = asyncHandler((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+exports.getUserByIdHandler = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const userId = req.params.userId;
     const user = yield (0, userService_1.getUserById)(userId);
     res.status(200).json({ user });
@@ -29,7 +29,7 @@ exports.getUserByIdHandler = asyncHandler((req, res, next) => __awaiter(void 0, 
 //@desc Create a user
 //@route POST /api/users
 //@access Public
-exports.createUserHandler = asyncHandler((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+exports.createUserHandler = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const userBody = req.body;
     const createdUser = yield (0, userService_1.createUser)(userBody);
     res.status(201).json({ createdUser });
@@ -37,7 +37,7 @@ exports.createUserHandler = asyncHandler((req, res, next) => __awaiter(void 0, v
 //@desc Update a user
 //@route PUT /api/users/:userId
 //@access Private
-exports.updateUserHandler = asyncHandler((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+exports.updateUserHandler = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const userId = req.params.userId;
     const userBody = req.body;
     const user = yield (0, userService_1.updateUser)(userId, userBody);
@@ -46,7 +46,7 @@ exports.updateUserHandler = asyncHandler((req, res, next) => __awaiter(void 0, v
 //@desc Delete a user
 //@route DELETE /api/users/:userId
 //@access Private
-exports.deleteUserHandler = asyncHandler((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+exports.deleteUserHandler = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const userId = req.params.userId;
     const username = yield (yield (0, userService_1.getUserById)(userId)).username;
     const user = yield (0, userService_1.deleteUser)(userId);
@@ -55,7 +55,7 @@ exports.deleteUserHandler = asyncHandler((req, res, next) => __awaiter(void 0, v
 //@desc Login a user
 //@route POST /api/users/login
 //@access Public
-exports.loginUserHandler = asyncHandler((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+exports.loginUserHandler = asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const userEmail = req.body.email;
     const userPassword = req.body.password;
     const user = yield (0, userService_1.loginUser)(userEmail, userPassword);

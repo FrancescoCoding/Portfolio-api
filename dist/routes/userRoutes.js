@@ -4,14 +4,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
+const authMiddleware_1 = require("../middleware/authMiddleware");
 const userController = require("../controllers/userController");
 const { getAllUsersHandler, createUserHandler, getUserByIdHandler, updateUserHandler, deleteUserHandler, loginUserHandler, } = userController;
 const userRoutes = express_1.default.Router();
-userRoutes.route("/").get(getAllUsersHandler).post(createUserHandler),
-    userRoutes.route("/login").post(loginUserHandler),
-    userRoutes
-        .route("/:userId")
-        .get(getUserByIdHandler)
-        .put(updateUserHandler)
-        .delete(deleteUserHandler);
+userRoutes.route("/").get(authMiddleware_1.protect, getAllUsersHandler).post(createUserHandler);
+userRoutes.route("/login").post(loginUserHandler);
+userRoutes
+    .route("/:userId")
+    .get(getUserByIdHandler)
+    .put(authMiddleware_1.protect, updateUserHandler)
+    .delete(authMiddleware_1.protect, deleteUserHandler);
 exports.default = userRoutes;

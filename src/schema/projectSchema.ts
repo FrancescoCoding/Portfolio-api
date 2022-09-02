@@ -2,7 +2,7 @@ import { Schema } from "mongoose";
 import { ProjectType } from "../types/projectTypes";
 
 export interface IProjectSchema extends ProjectType {
-  projectId: string;
+  _id: string;
 }
 
 const ProjectSchema = new Schema<ProjectType>(
@@ -10,11 +10,11 @@ const ProjectSchema = new Schema<ProjectType>(
     name: {
       unique: true,
       type: String,
-      required: true,
+      required: [true, "Name is required"],
     },
     description: {
       type: String,
-      required: true,
+      required: [true, "Description is required"],
     },
   },
   {

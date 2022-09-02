@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from "express";
+import { Request, Response } from "express";
 const asyncHandler = require("express-async-handler");
 
 import {
@@ -14,7 +14,7 @@ import {
 //@route GET /api/v1/users
 //@access Public
 exports.getAllUsersHandler = asyncHandler(
-  async (req: Request, res: Response, next: NextFunction) => {
+  async (req: Request, res: Response) => {
     const users = await getAllUsers();
     res.status(200).json(users);
   }
@@ -24,7 +24,7 @@ exports.getAllUsersHandler = asyncHandler(
 //@route GET /api/users/:userId
 //@access Public
 exports.getUserByIdHandler = asyncHandler(
-  async (req: Request, res: Response, next: NextFunction) => {
+  async (req: Request, res: Response) => {
     const userId = req.params.userId;
 
     const user = await getUserById(userId);
@@ -37,7 +37,7 @@ exports.getUserByIdHandler = asyncHandler(
 //@route POST /api/users
 //@access Public
 exports.createUserHandler = asyncHandler(
-  async (req: Request, res: Response, next: NextFunction) => {
+  async (req: Request, res: Response) => {
     const userBody = req.body;
 
     const createdUser = await createUser(userBody);
@@ -50,7 +50,7 @@ exports.createUserHandler = asyncHandler(
 //@route PUT /api/users/:userId
 //@access Private
 exports.updateUserHandler = asyncHandler(
-  async (req: Request, res: Response, next: NextFunction) => {
+  async (req: Request, res: Response) => {
     const userId = req.params.userId;
     const userBody = req.body;
 
@@ -64,7 +64,7 @@ exports.updateUserHandler = asyncHandler(
 //@route DELETE /api/users/:userId
 //@access Private
 exports.deleteUserHandler = asyncHandler(
-  async (req: Request, res: Response, next: NextFunction) => {
+  async (req: Request, res: Response) => {
     const userId = req.params.userId;
 
     const username = await (await getUserById(userId)).username;
@@ -77,13 +77,11 @@ exports.deleteUserHandler = asyncHandler(
 //@desc Login a user
 //@route POST /api/users/login
 //@access Public
-exports.loginUserHandler = asyncHandler(
-  async (req: Request, res: Response, next: NextFunction) => {
-    const userEmail = req.body.email;
-    const userPassword = req.body.password;
+exports.loginUserHandler = asyncHandler(async (req: Request, res: Response) => {
+  const userEmail = req.body.email;
+  const userPassword = req.body.password;
 
-    const user = await loginUser(userEmail, userPassword);
+  const user = await loginUser(userEmail, userPassword);
 
-    res.status(200).json({ user });
-  }
-);
+  res.status(200).json({ user });
+});

@@ -14,15 +14,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.sanitizeLoginUser = exports.sanitizeUser = void 0;
 const utils_1 = require("./utils");
-const utils_2 = require("./utils");
 const httpException_1 = __importDefault(require("../utils/httpException"));
-function sanitizeUser(user) {
+function sanitizeUser(users) {
     return __awaiter(this, void 0, void 0, function* () {
         let sanitizedUser = {};
-        sanitizedUser.username = (0, utils_1.removeScriptTags)(usernameSanitizer(user.username));
-        sanitizedUser.email = (0, utils_1.removeScriptTags)(emailSanitizer(user.email));
-        sanitizedUser.isAdmin = isAdminSanitizer(user.isAdmin);
-        sanitizedUser.password = yield passwordSanitizer(user.password);
+        sanitizedUser.username = usernameSanitizer(users.username);
+        sanitizedUser.email = emailSanitizer(users.email);
+        sanitizedUser.isAdmin = isAdminSanitizer(users.isAdmin);
+        sanitizedUser.password = yield passwordSanitizer(users.password);
         return sanitizedUser;
     });
 }
@@ -37,17 +36,14 @@ function sanitizeLoginUser(email, password) {
 }
 exports.sanitizeLoginUser = sanitizeLoginUser;
 function usernameSanitizer(username) {
-    if (!username) {
-        throw new httpException_1.default("Username is required", 400);
+    if (username === undefined) {
+        throw new httpException_1.default("Username is undefined", 400);
     }
     if (typeof username !== "string") {
-        throw new httpException_1.default("Username must be a string", 400);
+        throw new httpException_1.default("Username is not a string", 400);
     }
     username = username.trim();
-    if (username.length < 3 || username.length > 50) {
-        throw new httpException_1.default("Username must be between 3 and 50 characters", 400);
-    }
-    return (0, utils_1.removeScriptTags)(username.replace(/[<>]/g, ""));
+    return username;
 }
 function emailSanitizer(email) {
     if (email === undefined) {
@@ -63,17 +59,17 @@ function emailSanitizer(email) {
     if (email.length > 50) {
         throw new httpException_1.default("Email mut be less then 50 characters", 400);
     }
-    if (!email.match(utils_2.emailRegex)) {
+    if (!email.match(utils_1.emailRegex)) {
         throw new httpException_1.default("Please add a valid email", 400);
     }
     return email;
 }
 function isAdminSanitizer(isAdmin) {
-    if (!isAdmin) {
-        return false;
-    }
     if (typeof isAdmin !== "boolean") {
         throw new httpException_1.default("IsAdmin must be a boolean", 400);
+    }
+    if (!isAdmin) {
+        return false;
     }
     return isAdmin;
 }

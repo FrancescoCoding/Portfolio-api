@@ -13,14 +13,14 @@ const UserSchema = new mongoose_1.Schema({
         required: [true, "Email is required"],
         unique: true,
         min: [6, "Email must be at least 6 characters"],
-        max: [50, "Email must be less than 255 characters"],
+        max: [50, "Email must be less than 50 characters"],
         match: [utils_1.emailRegex, "Email is invalid"],
     },
     password: {
         type: String,
         required: [true, "Password is required"],
         min: [6, "Password must be at least 6 characters"],
-        max: [50, "Password must be less than 255 characters"],
+        max: [50, "Password must be less than 50 characters"],
     },
     isAdmin: {
         type: Boolean,
