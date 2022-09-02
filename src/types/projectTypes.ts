@@ -1,4 +1,4 @@
 export type ProjectType = {
-  name: string;
-  description: string;
+    name: string;
+    description: string;
 };
