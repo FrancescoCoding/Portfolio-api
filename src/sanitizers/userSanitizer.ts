@@ -3,7 +3,7 @@ import { emailRegex } from './utils';
 import HttpException from '../utils/httpException';
 
 export async function sanitizeUser(users: UserType): Promise<UserType> {
-    let sanitizedUser = <UserType>{};
+    const sanitizedUser = <UserType>{};
 
     sanitizedUser.username = usernameSanitizer(users.username);
     sanitizedUser.email = emailSanitizer(users.email);
@@ -17,7 +17,7 @@ export async function sanitizeLoginUser(
     email: string,
     password: string
 ): Promise<UserType> {
-    let sanitizedUser = <UserType>{};
+    const sanitizedUser = <UserType>{};
 
     sanitizedUser.email = emailSanitizer(email);
     sanitizedUser.password = await passwordSanitizer(password);
@@ -53,7 +53,7 @@ function emailSanitizer(email: string): string {
     if (email.length > 50) {
         throw new HttpException('Email mut be less then 50 characters', 400);
     }
-    if (!email.match(emailRegex)) {
+    if (email.match(emailRegex) == null) {
         throw new HttpException('Please add a valid email', 400);
     }
 

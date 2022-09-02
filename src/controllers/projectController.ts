@@ -1,5 +1,4 @@
 import { Request, Response, NextFunction } from 'express';
-const asyncHandler = require('express-async-handler');
 
 import {
     getAllProjects,
@@ -9,9 +8,11 @@ import {
     updateProject,
 } from '../services/projectService';
 
-//@desc Get all projects
-//@route GET /api/v1/projects
-//@access Public
+const asyncHandler = require('express-async-handler');
+
+// @desc Get all projects
+// @route GET /api/v1/projects
+// @access Public
 exports.getAllProjectsHandler = asyncHandler(
     async (req: Request, res: Response, next: NextFunction) => {
         const projects = await getAllProjects();
@@ -19,9 +20,9 @@ exports.getAllProjectsHandler = asyncHandler(
     }
 );
 
-//@desc Get a single project by id
-//@route GET /api/projects/:projectId
-//@access Public
+// @desc Get a single project by id
+// @route GET /api/projects/:projectId
+// @access Public
 exports.getProjectByIdHandler = asyncHandler(
     async (req: Request, res: Response, next: NextFunction) => {
         const projectId = req.params.projectId;
@@ -32,9 +33,9 @@ exports.getProjectByIdHandler = asyncHandler(
     }
 );
 
-//@desc Create a project
-//@route POST /api/projects
-//@access Private
+// @desc Create a project
+// @route POST /api/projects
+// @access Private
 exports.createProjectHandler = asyncHandler(
     async (req: Request, res: Response, next: NextFunction) => {
         const projectBody = req.body;
@@ -45,9 +46,9 @@ exports.createProjectHandler = asyncHandler(
     }
 );
 
-//@desc Update a project
-//@route PUT /api/projects/:projectId
-//@access Private
+// @desc Update a project
+// @route PUT /api/projects/:projectId
+// @access Private
 exports.updateProjectHandler = asyncHandler(
     async (req: Request, res: Response, next: NextFunction) => {
         const projectId = req.params.projectId;
@@ -59,9 +60,9 @@ exports.updateProjectHandler = asyncHandler(
     }
 );
 
-//@desc Delete a project
-//@route DELETE /api/projects/:projectId
-//@access Private
+// @desc Delete a project
+// @route DELETE /api/projects/:projectId
+// @access Private
 exports.deleteProjectHandler = asyncHandler(
     async (req: Request, res: Response, next: NextFunction) => {
         const projectId = req.params.projectId;

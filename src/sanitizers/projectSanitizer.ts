@@ -3,7 +3,7 @@ import { removeScriptTags } from './utils';
 import HttpException from '../utils/httpException';
 
 export function sanitizeProject(project: ProjectType) {
-    let sanitizedProject = <ProjectType>{};
+    const sanitizedProject = <ProjectType>{};
 
     sanitizedProject.name = removeScriptTags(titleSanitizer(project.name));
     sanitizedProject.description = removeScriptTags(

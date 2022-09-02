@@ -44,7 +44,7 @@ export async function getProjectById(
     try {
         const project = await ProjectModel.findById(projectId);
 
-        if (!project) {
+        if (project == null) {
             throw new Error('Project could not be found');
         }
 
@@ -69,7 +69,7 @@ export async function updateProject(
             { new: true }
         );
 
-        if (!updatedProject) {
+        if (updatedProject == null) {
             throw new Error('Project could not be updated');
         }
 
@@ -85,7 +85,7 @@ export async function deleteProject(projectId: string): Promise<void> {
     try {
         const project = await ProjectModel.findByIdAndDelete(projectId);
 
-        if (!project) {
+        if (project == null) {
             throw new Error('Project could not be deleted');
         }
 

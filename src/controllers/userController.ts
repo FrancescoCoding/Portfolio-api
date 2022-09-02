@@ -1,5 +1,4 @@
 import { Request, Response } from 'express';
-const asyncHandler = require('express-async-handler');
 
 import {
     getAllUsers,
@@ -9,10 +8,11 @@ import {
     updateUser,
     loginUser,
 } from '../services/userService';
+const asyncHandler = require('express-async-handler');
 
-//@desc Get all users
-//@route GET /api/v1/users
-//@access Public
+// @desc Get all users
+// @route GET /api/v1/users
+// @access Public
 exports.getAllUsersHandler = asyncHandler(
     async (req: Request, res: Response) => {
         const users = await getAllUsers();
@@ -20,9 +20,9 @@ exports.getAllUsersHandler = asyncHandler(
     }
 );
 
-//@desc Get a single user by id
-//@route GET /api/users/:userId
-//@access Public
+// @desc Get a single user by id
+// @route GET /api/users/:userId
+// @access Public
 exports.getUserByIdHandler = asyncHandler(
     async (req: Request, res: Response) => {
         const userId = req.params.userId;
@@ -33,9 +33,9 @@ exports.getUserByIdHandler = asyncHandler(
     }
 );
 
-//@desc Create a user
-//@route POST /api/users
-//@access Public
+// @desc Create a user
+// @route POST /api/users
+// @access Public
 exports.createUserHandler = asyncHandler(
     async (req: Request, res: Response) => {
         const userBody = req.body;
@@ -46,9 +46,9 @@ exports.createUserHandler = asyncHandler(
     }
 );
 
-//@desc Update a user
-//@route PUT /api/users/:userId
-//@access Private
+// @desc Update a user
+// @route PUT /api/users/:userId
+// @access Private
 exports.updateUserHandler = asyncHandler(
     async (req: Request, res: Response) => {
         const userId = req.params.userId;
@@ -60,9 +60,9 @@ exports.updateUserHandler = asyncHandler(
     }
 );
 
-//@desc Delete a user
-//@route DELETE /api/users/:userId
-//@access Private
+// @desc Delete a user
+// @route DELETE /api/users/:userId
+// @access Private
 exports.deleteUserHandler = asyncHandler(
     async (req: Request, res: Response) => {
         const userId = req.params.userId;
@@ -74,9 +74,9 @@ exports.deleteUserHandler = asyncHandler(
     }
 );
 
-//@desc Login a user
-//@route POST /api/users/login
-//@access Public
+// @desc Login a user
+// @route POST /api/users/login
+// @access Public
 exports.loginUserHandler = asyncHandler(async (req: Request, res: Response) => {
     const userEmail = req.body.email;
     const userPassword = req.body.password;

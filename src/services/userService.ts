@@ -57,7 +57,7 @@ export async function getUserById(userId: string): Promise<IUserSchema> {
     isObjectIdValid(userId);
     try {
         const user = await UserModel.findById(userId);
-        if (!user) throw new HttpException('User not found', 404);
+        if (user == null) throw new HttpException('User not found', 404);
 
         return user;
     } catch (err) {
@@ -79,7 +79,7 @@ export async function updateUser(
             sanitizedUser,
             { new: true }
         );
-        if (!updatedUser) throw new HttpException('User not found', 404);
+        if (updatedUser == null) throw new HttpException('User not found', 404);
 
         return updatedUser;
     } catch (err) {
@@ -93,7 +93,7 @@ export async function deleteUser(userId: string): Promise<void> {
     try {
         const user = await UserModel.findByIdAndDelete(userId);
 
-        if (!user) {
+        if (user == null) {
             throw new HttpException('User not found', 404);
         }
 
@@ -111,7 +111,7 @@ export async function loginUser(
 
     try {
         const user = await UserModel.findOne({ email });
-        if (!user) throw new HttpException('User not found', 404);
+        if (user == null) throw new HttpException('User not found', 404);
 
         const isPasswordValid = await bcrypt.compare(
             sanitizedUser.password,
