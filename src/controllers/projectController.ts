@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
+import asyncHandler from 'express-async-handler';
 
 import {
     getAllProjects,
@@ -8,12 +9,10 @@ import {
     updateProject,
 } from '../services/projectService';
 
-const asyncHandler = require('express-async-handler');
-
 // @desc Get all projects
 // @route GET /api/v1/projects
 // @access Public
-exports.getAllProjectsHandler = asyncHandler(
+const getAllProjectsHandler = asyncHandler(
     async (req: Request, res: Response, next: NextFunction) => {
         const projects = await getAllProjects();
         res.status(200).json(projects);
@@ -23,7 +22,7 @@ exports.getAllProjectsHandler = asyncHandler(
 // @desc Get a single project by id
 // @route GET /api/projects/:projectId
 // @access Public
-exports.getProjectByIdHandler = asyncHandler(
+const getProjectByIdHandler = asyncHandler(
     async (req: Request, res: Response, next: NextFunction) => {
         const projectId = req.params.projectId;
 
@@ -36,7 +35,7 @@ exports.getProjectByIdHandler = asyncHandler(
 // @desc Create a project
 // @route POST /api/projects
 // @access Private
-exports.createProjectHandler = asyncHandler(
+const createProjectHandler = asyncHandler(
     async (req: Request, res: Response, next: NextFunction) => {
         const projectBody = req.body;
 
@@ -49,7 +48,7 @@ exports.createProjectHandler = asyncHandler(
 // @desc Update a project
 // @route PUT /api/projects/:projectId
 // @access Private
-exports.updateProjectHandler = asyncHandler(
+const updateProjectHandler = asyncHandler(
     async (req: Request, res: Response, next: NextFunction) => {
         const projectId = req.params.projectId;
         const projectBody = req.body;
@@ -63,7 +62,7 @@ exports.updateProjectHandler = asyncHandler(
 // @desc Delete a project
 // @route DELETE /api/projects/:projectId
 // @access Private
-exports.deleteProjectHandler = asyncHandler(
+const deleteProjectHandler = asyncHandler(
     async (req: Request, res: Response, next: NextFunction) => {
         const projectId = req.params.projectId;
 
@@ -75,3 +74,11 @@ exports.deleteProjectHandler = asyncHandler(
         });
     }
 );
+
+export const projectController = {
+    getAllProjectsHandler,
+    getProjectByIdHandler,
+    createProjectHandler,
+    updateProjectHandler,
+    deleteProjectHandler,
+};

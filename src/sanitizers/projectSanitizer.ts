@@ -2,8 +2,11 @@ import { ProjectType } from '../types/projectTypes';
 import { removeScriptTags } from './utils';
 import HttpException from '../utils/httpException';
 
-export function sanitizeProject(project: ProjectType) {
-    const sanitizedProject = <ProjectType>{};
+export function sanitizeProject(project: ProjectType): ProjectType {
+    const sanitizedProject: ProjectType = {
+        name: '',
+        description: '',
+    };
 
     sanitizedProject.name = removeScriptTags(titleSanitizer(project.name));
     sanitizedProject.description = removeScriptTags(
@@ -12,8 +15,8 @@ export function sanitizeProject(project: ProjectType) {
     return sanitizedProject;
 }
 
-function titleSanitizer(title: string) {
-    if (!title) {
+function titleSanitizer(title: string): string {
+    if (title === undefined || title === null) {
         throw new HttpException('Project name is required', 400);
     }
     if (typeof title !== 'string') {
@@ -32,8 +35,8 @@ function titleSanitizer(title: string) {
     return removeScriptTags(title.replace(/[<>]/g, ''));
 }
 
-function descriptionSanitizer(description: string) {
-    if (!description) {
+function descriptionSanitizer(description: string): string {
+    if (description === undefined || description === null) {
         throw new HttpException('Project description is required', 400);
     }
     if (typeof description !== 'string') {

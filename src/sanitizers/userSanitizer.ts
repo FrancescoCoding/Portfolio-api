@@ -1,9 +1,16 @@
-import { UserType } from '../types/userTypes';
+import { UserSanitizerType, UserType } from '../types/userTypes';
 import { emailRegex } from './utils';
 import HttpException from '../utils/httpException';
 
-export async function sanitizeUser(users: UserType): Promise<UserType> {
-    const sanitizedUser = <UserType>{};
+export async function sanitizeUser(
+    users: UserType
+): Promise<UserSanitizerType> {
+    const sanitizedUser: UserSanitizerType = {
+        username: '',
+        email: '',
+        password: '',
+        isAdmin: false,
+    };
 
     sanitizedUser.username = usernameSanitizer(users.username);
     sanitizedUser.email = emailSanitizer(users.email);
@@ -16,8 +23,14 @@ export async function sanitizeUser(users: UserType): Promise<UserType> {
 export async function sanitizeLoginUser(
     email: string,
     password: string
-): Promise<UserType> {
-    const sanitizedUser = <UserType>{};
+): Promise<UserSanitizerType> {
+    // const sanitizedUser = <UserType>{};
+    const sanitizedUser: UserSanitizerType = {
+        username: '',
+        email: '',
+        password: '',
+        isAdmin: false,
+    };
 
     sanitizedUser.email = emailSanitizer(email);
     sanitizedUser.password = await passwordSanitizer(password);
@@ -25,7 +38,7 @@ export async function sanitizeLoginUser(
     return sanitizedUser;
 }
 
-function usernameSanitizer(username: string) {
+function usernameSanitizer(username: string): string {
     if (username === undefined) {
         throw new HttpException('Username is undefined', 400);
     }
@@ -60,7 +73,7 @@ function emailSanitizer(email: string): string {
     return email;
 }
 
-function isAdminSanitizer(isAdmin: boolean) {
+function isAdminSanitizer(isAdmin: boolean): boolean {
     if (typeof isAdmin !== 'boolean') {
         throw new HttpException('IsAdmin must be a boolean', 400);
     }

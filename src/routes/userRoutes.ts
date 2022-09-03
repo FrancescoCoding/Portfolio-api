@@ -1,7 +1,7 @@
 import express from 'express';
 import { protect } from '../middleware/authMiddleware';
 
-const userController = require('../controllers/userController');
+import { userController } from '../controllers/userController';
 
 const {
     getAllUsersHandler,

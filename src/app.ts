@@ -8,7 +8,9 @@ import { errorHandler } from './middleware/errorMiddleware';
 import projectRoutes from './routes/projectRoutes';
 import userRoutes from './routes/userRoutes';
 
-connectDB();
+export const db = async (): Promise<void> => {
+    await connectDB();
+};
 
 const app = express();
 
@@ -19,6 +21,6 @@ app.use('/api/users', userRoutes);
 
 app.use(errorHandler);
 
-app.listen(process.env.PORT || 3000, () => {
-    console.log(`Server is running on port ${process.env.PORT || 3000}`);
+app.listen(process.env.PORT ?? 3000, () => {
+    console.log(`Server is running on port ${process.env.PORT ?? 3000}`);
 });

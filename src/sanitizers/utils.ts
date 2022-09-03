@@ -1,6 +1,6 @@
 import HttpException from '../utils/httpException';
 
-export function removeScriptTags(userInput: string) {
+export function removeScriptTags(userInput: string): string {
     if (userInput.includes('<script>')) {
         throw new HttpException(
             'User inputs cannot contain <script> tags 😡',
@@ -15,4 +15,4 @@ export function removeScriptTags(userInput: string) {
     return userInput.replace(/<[^>]*>/g, '').trim();
 }
 
-export const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+export const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;

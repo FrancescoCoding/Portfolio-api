@@ -3,18 +3,15 @@ import { ProjectType } from '../types/projectTypes';
 import { IProjectSchema } from '../schema/projectSchema';
 import { isObjectIdValid } from '../database/db';
 import { sanitizeProject } from '../sanitizers/projectSanitizer';
+import { ErrorHandler } from '../utils/httpException';
 
 export async function getAllProjects(): Promise<ProjectType[]> {
     try {
         const projects = await ProjectModel.find();
 
-        if (!projects) {
-            throw new Error('Projects not found');
-        }
-
         return projects;
-    } catch (error) {
-        throw new Error(`Projects not found: ${error}`);
+    } catch (error: unknown) {
+        throw ErrorHandler(error);
     }
 }
 
@@ -26,13 +23,9 @@ export async function createProject(
     try {
         const newProject = await ProjectModel.create(sanitizedProject);
 
-        if (!newProject) {
-            throw new Error('Project could not be created');
-        }
-
         return newProject;
     } catch (error) {
-        throw new Error(`Error creating the project: ${error}`);
+        throw ErrorHandler(error);
     }
 }
 
@@ -50,7 +43,7 @@ export async function getProjectById(
 
         return project;
     } catch (error) {
-        throw new Error(`Error finding the project: ${error}`);
+        throw ErrorHandler(error);
     }
 }
 
@@ -75,7 +68,7 @@ export async function updateProject(
 
         return updatedProject;
     } catch (error) {
-        throw new Error(`Error updating the project: ${error}`);
+        throw ErrorHandler(error);
     }
 }
 
@@ -91,6 +84,6 @@ export async function deleteProject(projectId: string): Promise<void> {
 
         return;
     } catch (error) {
-        throw new Error(`Error deleting the project: ${error}`);
+        throw ErrorHandler(error);
     }
 }

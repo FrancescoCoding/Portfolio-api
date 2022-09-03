@@ -1,5 +1,5 @@
 import bcrypt from 'bcryptjs';
-import HttpException from '../utils/httpException';
+import HttpException, { ErrorHandler } from '../utils/httpException';
 import UserModel from '../models/userModel';
 
 import { UserReturnType, UserType } from '../types/userTypes';
@@ -12,13 +12,9 @@ export async function getAllUsers(): Promise<UserType[]> {
     try {
         const users = await UserModel.find();
 
-        if (!users) {
-            throw new HttpException('Users not found', 404);
-        }
-
         return users;
     } catch (error) {
-        throw new HttpException(`Failed to get users: ${error}`, 400);
+        throw ErrorHandler(error);
     }
 }
 
@@ -34,7 +30,6 @@ export async function createUser(user: UserType): Promise<UserReturnType> {
             password: hashedPassword,
             isAdmin: sanitizedUser.isAdmin,
         });
-        if (!newUser) throw new HttpException('User not created', 400);
 
         return {
             _id: newUser._id,
@@ -48,8 +43,8 @@ export async function createUser(user: UserType): Promise<UserReturnType> {
                 isAdmin: newUser.isAdmin,
             }),
         };
-    } catch (err) {
-        throw new HttpException(`Failed to create user: ${err.message}`, 400);
+    } catch (error) {
+        throw ErrorHandler(error);
     }
 }
 
@@ -60,8 +55,8 @@ export async function getUserById(userId: string): Promise<IUserSchema> {
         if (user == null) throw new HttpException('User not found', 404);
 
         return user;
-    } catch (err) {
-        throw new HttpException(`Failed to get user: ${err.message}`, 400);
+    } catch (error) {
+        throw ErrorHandler(error);
     }
 }
 
@@ -82,8 +77,8 @@ export async function updateUser(
         if (updatedUser == null) throw new HttpException('User not found', 404);
 
         return updatedUser;
-    } catch (err) {
-        throw new HttpException(`Failed to update user: ${err.message}`, 400);
+    } catch (error) {
+        throw ErrorHandler(error);
     }
 }
 
@@ -99,7 +94,7 @@ export async function deleteUser(userId: string): Promise<void> {
 
         return;
     } catch (error) {
-        throw new HttpException(`Failed to delete the user: ${error}`, 400);
+        throw ErrorHandler(error);
     }
 }
 
@@ -132,7 +127,7 @@ export async function loginUser(
                 isAdmin: user.isAdmin,
             }),
         };
-    } catch (err) {
-        throw new HttpException(`Failed to login user: ${err.message}`, 401);
+    } catch (error) {
+        throw ErrorHandler(error);
     }
 }

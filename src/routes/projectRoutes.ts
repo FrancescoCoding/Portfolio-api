@@ -1,7 +1,7 @@
 import express from 'express';
 import { protect } from '../middleware/authMiddleware';
 
-const projectController = require('../controllers/projectController');
+import { projectController } from '../controllers/projectController';
 
 const {
     getAllProjectsHandler,
