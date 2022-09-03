@@ -11,6 +11,8 @@ Link: [**Live API**](https://francesco-api.herokuapp.com/api/projects)
 - 📧 **_Postman_** for creating and testing the API  
 - 🚯 User input **_sanitation_**  
 - 🔑 Authentication & JWT Tokens (**_jsonwebtoken_**, **_bcryptjs_**)
+- 🎯 **_ESLint_** analysis to make the application more robust and production standard
+
 
 
 ### Postman playground:
