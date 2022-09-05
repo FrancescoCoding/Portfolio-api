@@ -16,17 +16,15 @@ exports.deleteProject = exports.updateProject = exports.getProjectById = exports
 const projectModel_1 = __importDefault(require("../models/projectModel"));
 const db_1 = require("../database/db");
 const projectSanitizer_1 = require("../sanitizers/projectSanitizer");
+const httpException_1 = require("../utils/httpException");
 function getAllProjects() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const projects = yield projectModel_1.default.find();
-            if (!projects) {
-                throw new Error("Projects not found");
-            }
             return projects;
         }
         catch (error) {
-            throw new Error(`Projects not found: ${error}`);
+            throw (0, httpException_1.ErrorHandler)(error);
         }
     });
 }
@@ -36,13 +34,10 @@ function createProject(project) {
         const sanitizedProject = (0, projectSanitizer_1.sanitizeProject)(project);
         try {
             const newProject = yield projectModel_1.default.create(sanitizedProject);
-            if (!newProject) {
-                throw new Error("Project could not be created");
-            }
             return newProject;
         }
         catch (error) {
-            throw new Error(`Error creating the project: ${error}`);
+            throw (0, httpException_1.ErrorHandler)(error);
         }
     });
 }
@@ -52,13 +47,13 @@ function getProjectById(projectId) {
         (0, db_1.isObjectIdValid)(projectId);
         try {
             const project = yield projectModel_1.default.findById(projectId);
-            if (!project) {
-                throw new Error("Project could not be found");
+            if (project == null) {
+                throw new Error('Project could not be found');
             }
             return project;
         }
         catch (error) {
-            throw new Error(`Error finding the project: ${error}`);
+            throw (0, httpException_1.ErrorHandler)(error);
         }
     });
 }
@@ -69,13 +64,13 @@ function updateProject(projectId, project) {
         const sanitizedProject = (0, projectSanitizer_1.sanitizeProject)(project);
         try {
             const updatedProject = yield projectModel_1.default.findByIdAndUpdate(projectId, sanitizedProject, { new: true });
-            if (!updatedProject) {
-                throw new Error("Project could not be updated");
+            if (updatedProject == null) {
+                throw new Error('Project could not be updated');
             }
             return updatedProject;
         }
         catch (error) {
-            throw new Error(`Error updating the project: ${error}`);
+            throw (0, httpException_1.ErrorHandler)(error);
         }
     });
 }
@@ -85,13 +80,13 @@ function deleteProject(projectId) {
         (0, db_1.isObjectIdValid)(projectId);
         try {
             const project = yield projectModel_1.default.findByIdAndDelete(projectId);
-            if (!project) {
-                throw new Error("Project could not be deleted");
+            if (project == null) {
+                throw new Error('Project could not be deleted');
             }
             return;
         }
         catch (error) {
-            throw new Error(`Error deleting the project: ${error}`);
+            throw (0, httpException_1.ErrorHandler)(error);
         }
     });
 }

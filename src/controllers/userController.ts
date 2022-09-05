@@ -13,75 +13,77 @@ import {
 // @desc Get all users
 // @route GET /api/v1/users
 // @access Public
-const getAllUsersHandler = asyncHandler(async (req: Request, res: Response) => {
-    const users = await getAllUsers();
-    res.status(200).json(users);
-});
+export const getAllUsersHandler = asyncHandler(
+    async (req: Request, res: Response) => {
+        const users = await getAllUsers();
+        res.status(200).json(users);
+    }
+);
 
 // @desc Get a single user by id
 // @route GET /api/users/:userId
 // @access Public
-const getUserByIdHandler = asyncHandler(async (req: Request, res: Response) => {
-    const userId = req.params.userId;
+export const getUserByIdHandler = asyncHandler(
+    async (req: Request, res: Response) => {
+        const userId = req.params.userId;
 
-    const user = await getUserById(userId);
+        const user = await getUserById(userId);
 
-    res.status(200).json({ user });
-});
+        res.status(200).json({ user });
+    }
+);
 
 // @desc Create a user
 // @route POST /api/users
 // @access Public
-const createUserHandler = asyncHandler(async (req: Request, res: Response) => {
-    const userBody = req.body;
+export const createUserHandler = asyncHandler(
+    async (req: Request, res: Response) => {
+        const userBody = req.body;
 
-    const createdUser = await createUser(userBody);
+        const createdUser = await createUser(userBody);
 
-    res.status(201).json({ createdUser });
-});
+        res.status(201).json({ createdUser });
+    }
+);
 
 // @desc Update a user
 // @route PUT /api/users/:userId
 // @access Private
-const updateUserHandler = asyncHandler(async (req: Request, res: Response) => {
-    const userId = req.params.userId;
-    const userBody = req.body;
+export const updateUserHandler = asyncHandler(
+    async (req: Request, res: Response) => {
+        const userId = req.params.userId;
+        const userBody = req.body;
 
-    const user = await updateUser(userId, userBody);
+        const user = await updateUser(userId, userBody);
 
-    res.status(200).json({ user });
-});
+        res.status(200).json({ user });
+    }
+);
 
 // @desc Delete a user
 // @route DELETE /api/users/:userId
 // @access Private
-const deleteUserHandler = asyncHandler(async (req: Request, res: Response) => {
-    const userId = req.params.userId;
+export const deleteUserHandler = asyncHandler(
+    async (req: Request, res: Response) => {
+        const userId = req.params.userId;
 
-    const username = await (await getUserById(userId)).username;
-    const user = await deleteUser(userId);
+        const username = await (await getUserById(userId)).username;
+        const user = await deleteUser(userId);
 
-    res.status(200).json({ message: `User '${username}' deleted`, user });
-});
+        res.status(200).json({ message: `User '${username}' deleted`, user });
+    }
+);
 
 // @desc Login a user
 // @route POST /api/users/login
 // @access Public
-const loginUserHandler = asyncHandler(async (req: Request, res: Response) => {
-    const userEmail = req.body.email;
-    const userPassword = req.body.password;
+export const loginUserHandler = asyncHandler(
+    async (req: Request, res: Response) => {
+        const userEmail = req.body.email;
+        const userPassword = req.body.password;
 
-    const user = await loginUser(userEmail, userPassword);
+        const user = await loginUser(userEmail, userPassword);
 
-    res.status(200).json({ user });
-});
-
-// export userController
-export const userController = {
-    getAllUsersHandler,
-    getUserByIdHandler,
-    createUserHandler,
-    updateUserHandler,
-    deleteUserHandler,
-    loginUserHandler,
-};
+        res.status(200).json({ user });
+    }
+);

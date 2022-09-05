@@ -9,7 +9,7 @@ const config_1 = require("../utils/config");
 const httpException_1 = __importDefault(require("../utils/httpException"));
 function generateToken(user) {
     return jsonwebtoken_1.default.sign(user, config_1.JWT_SECRET, {
-        expiresIn: "1d",
+        expiresIn: '1d',
     });
 }
 exports.generateToken = generateToken;
@@ -18,7 +18,7 @@ function verifyToken(token) {
         return jsonwebtoken_1.default.verify(token, config_1.JWT_SECRET);
     }
     catch (error) {
-        throw new httpException_1.default("Invalid token", 401);
+        throw new httpException_1.default('Invalid token', 401);
     }
 }
 exports.verifyToken = verifyToken;

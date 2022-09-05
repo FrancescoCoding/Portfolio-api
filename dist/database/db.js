@@ -17,13 +17,13 @@ const mongoose_1 = __importDefault(require("mongoose"));
 const config_1 = require("../utils/config");
 const httpException_1 = __importDefault(require("../utils/httpException"));
 const connectDB = () => __awaiter(void 0, void 0, void 0, function* () {
-    if (!config_1.MONGO_URI) {
-        console.log("Mongo URI is required");
+    if (config_1.MONGO_URI == null || config_1.MONGO_URI === '') {
+        console.log('Mongo URI is required');
         process.exit(1);
     }
     try {
         yield mongoose_1.default.connect(config_1.MONGO_URI);
-        console.log("MongoDB connected");
+        console.log('MongoDB connected');
     }
     catch (error) {
         console.log(error);

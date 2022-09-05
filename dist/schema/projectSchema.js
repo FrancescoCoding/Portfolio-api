@@ -5,11 +5,11 @@ const ProjectSchema = new mongoose_1.Schema({
     name: {
         unique: true,
         type: String,
-        required: [true, "Name is required"],
+        required: [true, 'Name is required'],
     },
     description: {
         type: String,
-        required: [true, "Description is required"],
+        required: [true, 'Description is required'],
     },
 }, {
     timestamps: true,

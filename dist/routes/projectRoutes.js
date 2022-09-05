@@ -5,15 +5,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const authMiddleware_1 = require("../middleware/authMiddleware");
-const projectController = require("../controllers/projectController");
-const { getAllProjectsHandler, getProjectByIdHandler, createProjectHandler, updateProjectHandler, deleteProjectHandler, } = projectController;
+const projectController_1 = require("../controllers/projectController");
+const { getAllProjectsHandler, getProjectByIdHandler, createProjectHandler, updateProjectHandler, deleteProjectHandler, } = projectController_1.projectController;
 const projectRoutes = express_1.default.Router();
 projectRoutes
-    .route("/")
+    .route('/')
     .get(getAllProjectsHandler)
     .post(authMiddleware_1.protect, createProjectHandler);
 projectRoutes
-    .route("/:projectId")
+    .route('/:projectId')
     .get(getProjectByIdHandler)
     .put(authMiddleware_1.protect, updateProjectHandler)
     .delete(authMiddleware_1.protect, deleteProjectHandler);

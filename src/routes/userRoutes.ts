@@ -1,16 +1,14 @@
 import express from 'express';
 import { protect } from '../middleware/authMiddleware';
 
-import { userController } from '../controllers/userController';
-
-const {
+import {
     getAllUsersHandler,
     createUserHandler,
     getUserByIdHandler,
     updateUserHandler,
     deleteUserHandler,
     loginUserHandler,
-} = userController;
+} from '../controllers/userController';
 
 const userRoutes = express.Router();
 

@@ -17,7 +17,12 @@ const utils_1 = require("./utils");
 const httpException_1 = __importDefault(require("../utils/httpException"));
 function sanitizeUser(users) {
     return __awaiter(this, void 0, void 0, function* () {
-        let sanitizedUser = {};
+        const sanitizedUser = {
+            username: '',
+            email: '',
+            password: '',
+            isAdmin: false,
+        };
         sanitizedUser.username = usernameSanitizer(users.username);
         sanitizedUser.email = emailSanitizer(users.email);
         sanitizedUser.isAdmin = isAdminSanitizer(users.isAdmin);
@@ -28,7 +33,13 @@ function sanitizeUser(users) {
 exports.sanitizeUser = sanitizeUser;
 function sanitizeLoginUser(email, password) {
     return __awaiter(this, void 0, void 0, function* () {
-        let sanitizedUser = {};
+        // const sanitizedUser = <UserType>{};
+        const sanitizedUser = {
+            username: '',
+            email: '',
+            password: '',
+            isAdmin: false,
+        };
         sanitizedUser.email = emailSanitizer(email);
         sanitizedUser.password = yield passwordSanitizer(password);
         return sanitizedUser;
@@ -37,36 +48,36 @@ function sanitizeLoginUser(email, password) {
 exports.sanitizeLoginUser = sanitizeLoginUser;
 function usernameSanitizer(username) {
     if (username === undefined) {
-        throw new httpException_1.default("Username is undefined", 400);
+        throw new httpException_1.default('Username is undefined', 400);
     }
-    if (typeof username !== "string") {
-        throw new httpException_1.default("Username is not a string", 400);
+    if (typeof username !== 'string') {
+        throw new httpException_1.default('Username is not a string', 400);
     }
     username = username.trim();
     return username;
 }
 function emailSanitizer(email) {
     if (email === undefined) {
-        throw new httpException_1.default("Email is undefined", 400);
+        throw new httpException_1.default('Email is undefined', 400);
     }
-    if (typeof email !== "string") {
-        throw new httpException_1.default("Email is not a string", 400);
+    if (typeof email !== 'string') {
+        throw new httpException_1.default('Email is not a string', 400);
     }
     email = email.trim();
     if (email.length < 6) {
-        throw new httpException_1.default("Email must be at least 6 characters", 400);
+        throw new httpException_1.default('Email must be at least 6 characters', 400);
     }
     if (email.length > 50) {
-        throw new httpException_1.default("Email mut be less then 50 characters", 400);
+        throw new httpException_1.default('Email mut be less then 50 characters', 400);
     }
-    if (!email.match(utils_1.emailRegex)) {
-        throw new httpException_1.default("Please add a valid email", 400);
+    if (email.match(utils_1.emailRegex) == null) {
+        throw new httpException_1.default('Please add a valid email', 400);
     }
     return email;
 }
 function isAdminSanitizer(isAdmin) {
-    if (typeof isAdmin !== "boolean") {
-        throw new httpException_1.default("IsAdmin must be a boolean", 400);
+    if (typeof isAdmin !== 'boolean') {
+        throw new httpException_1.default('IsAdmin must be a boolean', 400);
     }
     if (!isAdmin) {
         return false;
@@ -76,17 +87,17 @@ function isAdminSanitizer(isAdmin) {
 function passwordSanitizer(password) {
     return __awaiter(this, void 0, void 0, function* () {
         if (password === undefined) {
-            throw new httpException_1.default("Password is undefined", 400);
+            throw new httpException_1.default('Password is undefined', 400);
         }
-        if (typeof password !== "string") {
-            throw new httpException_1.default("Password is not a string", 400);
+        if (typeof password !== 'string') {
+            throw new httpException_1.default('Password is not a string', 400);
         }
         password = password.trim();
         if (password.length < 6) {
-            throw new httpException_1.default("Password must be at least 6 characters", 400);
+            throw new httpException_1.default('Password must be at least 6 characters', 400);
         }
         if (password.length > 50) {
-            throw new httpException_1.default("Password mut be less then 50 characters", 400);
+            throw new httpException_1.default('Password mut be less then 50 characters', 400);
         }
         return password;
     });

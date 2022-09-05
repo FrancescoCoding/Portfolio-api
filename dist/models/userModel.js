@@ -5,5 +5,5 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = require("mongoose");
 const userSchema_1 = __importDefault(require("../schema/userSchema"));
-const UserModel = (0, mongoose_1.model)("User", userSchema_1.default);
+const UserModel = (0, mongoose_1.model)('User', userSchema_1.default);
 exports.default = UserModel;

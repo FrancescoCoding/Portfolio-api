@@ -12,7 +12,7 @@ import {
 // @desc Get all projects
 // @route GET /api/v1/projects
 // @access Public
-const getAllProjectsHandler = asyncHandler(
+export const getAllProjectsHandler = asyncHandler(
     async (req: Request, res: Response, next: NextFunction) => {
         const projects = await getAllProjects();
         res.status(200).json(projects);
@@ -22,7 +22,7 @@ const getAllProjectsHandler = asyncHandler(
 // @desc Get a single project by id
 // @route GET /api/projects/:projectId
 // @access Public
-const getProjectByIdHandler = asyncHandler(
+export const getProjectByIdHandler = asyncHandler(
     async (req: Request, res: Response, next: NextFunction) => {
         const projectId = req.params.projectId;
 
@@ -35,7 +35,7 @@ const getProjectByIdHandler = asyncHandler(
 // @desc Create a project
 // @route POST /api/projects
 // @access Private
-const createProjectHandler = asyncHandler(
+export const createProjectHandler = asyncHandler(
     async (req: Request, res: Response, next: NextFunction) => {
         const projectBody = req.body;
 
@@ -48,7 +48,7 @@ const createProjectHandler = asyncHandler(
 // @desc Update a project
 // @route PUT /api/projects/:projectId
 // @access Private
-const updateProjectHandler = asyncHandler(
+export const updateProjectHandler = asyncHandler(
     async (req: Request, res: Response, next: NextFunction) => {
         const projectId = req.params.projectId;
         const projectBody = req.body;
@@ -62,7 +62,7 @@ const updateProjectHandler = asyncHandler(
 // @desc Delete a project
 // @route DELETE /api/projects/:projectId
 // @access Private
-const deleteProjectHandler = asyncHandler(
+export const deleteProjectHandler = asyncHandler(
     async (req: Request, res: Response, next: NextFunction) => {
         const projectId = req.params.projectId;
 
@@ -74,11 +74,3 @@ const deleteProjectHandler = asyncHandler(
         });
     }
 );
-
-export const projectController = {
-    getAllProjectsHandler,
-    getProjectByIdHandler,
-    createProjectHandler,
-    updateProjectHandler,
-    deleteProjectHandler,
-};

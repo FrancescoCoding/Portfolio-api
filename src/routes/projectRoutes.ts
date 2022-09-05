@@ -1,15 +1,13 @@
 import express from 'express';
 import { protect } from '../middleware/authMiddleware';
 
-import { projectController } from '../controllers/projectController';
-
-const {
+import {
     getAllProjectsHandler,
     getProjectByIdHandler,
     createProjectHandler,
     updateProjectHandler,
     deleteProjectHandler,
-} = projectController;
+} from '../controllers/projectController';
 
 const projectRoutes = express.Router();
 
