@@ -5,8 +5,8 @@ import 'dotenv/config';
 import { connectDB } from './database/db';
 import { errorHandler } from './middleware/errorMiddleware';
 
-import projectRoutes from './routes/projectRoutes';
 import userRoutes from './routes/userRoutes';
+import projectRoutes from './routes/projectRoutes';
 
 export const db = async (): Promise<void> => {
     await connectDB();
