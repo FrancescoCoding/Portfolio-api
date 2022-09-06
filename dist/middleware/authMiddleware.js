@@ -18,12 +18,14 @@ const userService_1 = require("../services/userService");
 const httpException_1 = __importDefault(require("../utils/httpException"));
 const express_async_handler_1 = __importDefault(require("express-async-handler"));
 exports.protect = (0, express_async_handler_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    var _a, _b, _c;
-    if ((_c = (_b = (_a = req.headers === null) !== null && _a !== void 0 ? _a : req.headers.authorization === null) !== null && _b !== void 0 ? _b : req.headers.authorization === undefined) !== null && _c !== void 0 ? _c : !req.headers.authorization.startsWith('Bearer ')) {
+    if (req.headers.authorization === null ||
+        req.headers.authorization === '' ||
+        req.headers.authorization === undefined ||
+        !req.headers.authorization.startsWith('Bearer ')) {
         throw new httpException_1.default('Unauthorized', 401);
     }
     const token = req.headers.authorization.split(' ')[1];
-    const decoded = yield (0, tokenService_1.verifyToken)(token);
+    const decoded = (0, tokenService_1.verifyToken)(token);
     req.user = yield (0, userService_1.getUserById)(decoded._id);
     next();
 }));

@@ -5,9 +5,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.sanitizeProject = void 0;
 const utils_1 = require("./utils");
+const userSanitizer_1 = require("./userSanitizer");
 const httpException_1 = __importDefault(require("../utils/httpException"));
-function sanitizeProject(project) {
+function sanitizeProject(project, userId) {
+    const sanitizedId = (0, userSanitizer_1.sanitizeId)(userId);
     const sanitizedProject = {
+        userId: sanitizedId,
         name: '',
         description: '',
     };

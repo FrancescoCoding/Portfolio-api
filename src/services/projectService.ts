@@ -16,9 +16,10 @@ export async function getAllProjects(): Promise<ProjectType[]> {
 }
 
 export async function createProject(
-    project: ProjectType
+    project: ProjectType,
+    userId: string | undefined
 ): Promise<ProjectType> {
-    const sanitizedProject = sanitizeProject(project);
+    const sanitizedProject = sanitizeProject(project, userId);
 
     try {
         const newProject = await ProjectModel.create(sanitizedProject);
@@ -49,11 +50,12 @@ export async function getProjectById(
 
 export async function updateProject(
     projectId: string,
-    project: ProjectType
+    project: ProjectType,
+    userId: string | undefined
 ): Promise<IProjectSchema> {
     isObjectIdValid(projectId);
 
-    const sanitizedProject = sanitizeProject(project);
+    const sanitizedProject = sanitizeProject(project, userId);
 
     try {
         const updatedProject = await ProjectModel.findByIdAndUpdate(
@@ -72,7 +74,10 @@ export async function updateProject(
     }
 }
 
-export async function deleteProject(projectId: string): Promise<void> {
+export async function deleteProject(
+    projectId: string,
+    userId: string | undefined
+): Promise<void> {
     isObjectIdValid(projectId);
 
     try {

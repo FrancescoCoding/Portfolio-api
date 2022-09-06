@@ -1,5 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import asyncHandler from 'express-async-handler';
+import { AuthorizedUserRequest } from '../middleware/authMiddleware';
+import { sanitizeId } from '../sanitizers/userSanitizer';
 
 import {
     getAllProjects,
@@ -8,6 +10,7 @@ import {
     deleteProject,
     updateProject,
 } from '../services/projectService';
+import HttpException from '../utils/httpException';
 
 // @desc Get all projects
 // @route GET /api/v1/projects
@@ -36,10 +39,11 @@ export const getProjectByIdHandler = asyncHandler(
 // @route POST /api/projects
 // @access Private
 export const createProjectHandler = asyncHandler(
-    async (req: Request, res: Response, next: NextFunction) => {
+    async (req: AuthorizedUserRequest, res: Response, next: NextFunction) => {
         const projectBody = req.body;
+        const userId = req.user?._id;
 
-        const createdProject = await createProject(projectBody);
+        const createdProject = await createProject(projectBody, userId);
 
         res.status(201).json({ createdProject });
     }
@@ -49,11 +53,14 @@ export const createProjectHandler = asyncHandler(
 // @route PUT /api/projects/:projectId
 // @access Private
 export const updateProjectHandler = asyncHandler(
-    async (req: Request, res: Response, next: NextFunction) => {
+    async (req: AuthorizedUserRequest, res: Response, next: NextFunction) => {
         const projectId = req.params.projectId;
         const projectBody = req.body;
+        const userId = req.user?._id;
 
-        const project = await updateProject(projectId, projectBody);
+        await isUserAuthorized(userId, projectId);
+
+        const project = await updateProject(projectId, projectBody, userId);
 
         res.status(200).json({ project });
     }
@@ -63,10 +70,11 @@ export const updateProjectHandler = asyncHandler(
 // @route DELETE /api/projects/:projectId
 // @access Private
 export const deleteProjectHandler = asyncHandler(
-    async (req: Request, res: Response, next: NextFunction) => {
+    async (req: AuthorizedUserRequest, res: Response, next: NextFunction) => {
         const projectId = req.params.projectId;
+        const userId = req.user?._id;
 
-        const project = await deleteProject(projectId);
+        const project = await deleteProject(projectId, userId);
 
         res.status(200).json({
             message: `Project ${projectId} deleted`,
@@ -74,3 +82,16 @@ export const deleteProjectHandler = asyncHandler(
         });
     }
 );
+
+// @desc Check if user is authorized to update or delete a project
+async function isUserAuthorized(
+    userId: string | undefined,
+    projectId: string
+): Promise<void> {
+    const sanitizedUserId = sanitizeId(userId);
+    const projectToUpdate = await getProjectById(projectId);
+
+    if (sanitizedUserId !== projectToUpdate._id) {
+        throw new HttpException('Unauthorized', 401);
+    }
+}

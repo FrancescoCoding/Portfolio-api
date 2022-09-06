@@ -12,7 +12,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.sanitizeLoginUser = exports.sanitizeUser = void 0;
+exports.sanitizeId = exports.sanitizeLoginUser = exports.sanitizeUser = void 0;
+const db_1 = require("../database/db");
 const utils_1 = require("./utils");
 const httpException_1 = __importDefault(require("../utils/httpException"));
 function sanitizeUser(users) {
@@ -102,3 +103,11 @@ function passwordSanitizer(password) {
         return password;
     });
 }
+function sanitizeId(id) {
+    if (id === undefined) {
+        throw new httpException_1.default('UserId is undefined', 400);
+    }
+    (0, db_1.isObjectIdValid)(id);
+    return id.valueOf();
+}
+exports.sanitizeId = sanitizeId;

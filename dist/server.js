@@ -19,12 +19,13 @@ const body_parser_1 = __importDefault(require("body-parser"));
 require("dotenv/config");
 const db_1 = require("./database/db");
 const errorMiddleware_1 = require("./middleware/errorMiddleware");
-const projectRoutes_1 = __importDefault(require("./routes/projectRoutes"));
 const userRoutes_1 = __importDefault(require("./routes/userRoutes"));
+const projectRoutes_1 = __importDefault(require("./routes/projectRoutes"));
 const db = () => __awaiter(void 0, void 0, void 0, function* () {
     yield (0, db_1.connectDB)();
 });
 exports.db = db;
+void (0, exports.db)();
 const app = (0, express_1.default)();
 app.use(body_parser_1.default.json());
 app.use('/api/projects', projectRoutes_1.default);

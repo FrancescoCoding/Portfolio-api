@@ -29,9 +29,9 @@ function getAllProjects() {
     });
 }
 exports.getAllProjects = getAllProjects;
-function createProject(project) {
+function createProject(project, userId) {
     return __awaiter(this, void 0, void 0, function* () {
-        const sanitizedProject = (0, projectSanitizer_1.sanitizeProject)(project);
+        const sanitizedProject = (0, projectSanitizer_1.sanitizeProject)(project, userId);
         try {
             const newProject = yield projectModel_1.default.create(sanitizedProject);
             return newProject;
@@ -58,10 +58,10 @@ function getProjectById(projectId) {
     });
 }
 exports.getProjectById = getProjectById;
-function updateProject(projectId, project) {
+function updateProject(projectId, project, userId) {
     return __awaiter(this, void 0, void 0, function* () {
         (0, db_1.isObjectIdValid)(projectId);
-        const sanitizedProject = (0, projectSanitizer_1.sanitizeProject)(project);
+        const sanitizedProject = (0, projectSanitizer_1.sanitizeProject)(project, userId);
         try {
             const updatedProject = yield projectModel_1.default.findByIdAndUpdate(projectId, sanitizedProject, { new: true });
             if (updatedProject == null) {
@@ -75,7 +75,7 @@ function updateProject(projectId, project) {
     });
 }
 exports.updateProject = updateProject;
-function deleteProject(projectId) {
+function deleteProject(projectId, userId) {
     return __awaiter(this, void 0, void 0, function* () {
         (0, db_1.isObjectIdValid)(projectId);
         try {

@@ -12,20 +12,20 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.userController = void 0;
+exports.loginUserHandler = exports.deleteUserHandler = exports.updateUserHandler = exports.createUserHandler = exports.getUserByIdHandler = exports.getAllUsersHandler = void 0;
 const express_async_handler_1 = __importDefault(require("express-async-handler"));
 const userService_1 = require("../services/userService");
 // @desc Get all users
 // @route GET /api/v1/users
 // @access Public
-const getAllUsersHandler = (0, express_async_handler_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.getAllUsersHandler = (0, express_async_handler_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const users = yield (0, userService_1.getAllUsers)();
     res.status(200).json(users);
 }));
 // @desc Get a single user by id
 // @route GET /api/users/:userId
 // @access Public
-const getUserByIdHandler = (0, express_async_handler_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.getUserByIdHandler = (0, express_async_handler_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const userId = req.params.userId;
     const user = yield (0, userService_1.getUserById)(userId);
     res.status(200).json({ user });
@@ -33,7 +33,7 @@ const getUserByIdHandler = (0, express_async_handler_1.default)((req, res) => __
 // @desc Create a user
 // @route POST /api/users
 // @access Public
-const createUserHandler = (0, express_async_handler_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.createUserHandler = (0, express_async_handler_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const userBody = req.body;
     const createdUser = yield (0, userService_1.createUser)(userBody);
     res.status(201).json({ createdUser });
@@ -41,7 +41,7 @@ const createUserHandler = (0, express_async_handler_1.default)((req, res) => __a
 // @desc Update a user
 // @route PUT /api/users/:userId
 // @access Private
-const updateUserHandler = (0, express_async_handler_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.updateUserHandler = (0, express_async_handler_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const userId = req.params.userId;
     const userBody = req.body;
     const user = yield (0, userService_1.updateUser)(userId, userBody);
@@ -50,7 +50,7 @@ const updateUserHandler = (0, express_async_handler_1.default)((req, res) => __a
 // @desc Delete a user
 // @route DELETE /api/users/:userId
 // @access Private
-const deleteUserHandler = (0, express_async_handler_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.deleteUserHandler = (0, express_async_handler_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const userId = req.params.userId;
     const username = yield (yield (0, userService_1.getUserById)(userId)).username;
     const user = yield (0, userService_1.deleteUser)(userId);
@@ -59,18 +59,9 @@ const deleteUserHandler = (0, express_async_handler_1.default)((req, res) => __a
 // @desc Login a user
 // @route POST /api/users/login
 // @access Public
-const loginUserHandler = (0, express_async_handler_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.loginUserHandler = (0, express_async_handler_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const userEmail = req.body.email;
     const userPassword = req.body.password;
     const user = yield (0, userService_1.loginUser)(userEmail, userPassword);
     res.status(200).json({ user });
 }));
-// export userController
-exports.userController = {
-    getAllUsersHandler,
-    getUserByIdHandler,
-    createUserHandler,
-    updateUserHandler,
-    deleteUserHandler,
-    loginUserHandler,
-};

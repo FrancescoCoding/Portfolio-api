@@ -15,4 +15,5 @@ function removeScriptTags(userInput) {
     return userInput.replace(/<[^>]*>/g, '').trim();
 }
 exports.removeScriptTags = removeScriptTags;
-exports.emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
+// eslint-disable-next-line no-useless-escape
+exports.emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;

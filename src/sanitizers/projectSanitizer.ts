@@ -1,9 +1,16 @@
 import { ProjectType } from '../types/projectTypes';
 import { removeScriptTags } from './utils';
+import { sanitizeId } from './userSanitizer';
 import HttpException from '../utils/httpException';
 
-export function sanitizeProject(project: ProjectType): ProjectType {
+export function sanitizeProject(
+    project: ProjectType,
+    userId: string | undefined
+): ProjectType {
+    const sanitizedId = sanitizeId(userId);
+
     const sanitizedProject: ProjectType = {
+        userId: sanitizedId,
         name: '',
         description: '',
     };

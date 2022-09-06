@@ -1,4 +1,5 @@
 import { UserSanitizerType, UserType } from '../types/userTypes';
+import { isObjectIdValid } from '../database/db';
 import { emailRegex } from './utils';
 import HttpException from '../utils/httpException';
 
@@ -102,4 +103,13 @@ async function passwordSanitizer(password: string): Promise<string> {
     }
 
     return password;
+}
+
+export function sanitizeId(id: string | undefined): string {
+    if (id === undefined) {
+        throw new HttpException('UserId is undefined', 400);
+    }
+    isObjectIdValid(id);
+
+    return id.valueOf();
 }

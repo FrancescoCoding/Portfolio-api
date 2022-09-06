@@ -12,6 +12,8 @@ export const db = async (): Promise<void> => {
     await connectDB();
 };
 
+void db();
+
 const app = express();
 
 app.use(bodyParser.json());

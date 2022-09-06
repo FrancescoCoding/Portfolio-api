@@ -11,12 +11,15 @@ class HttpException extends Error {
 }
 exports.default = HttpException;
 function ErrorHandler(error) {
-    if (error instanceof HttpException) {
-        throw new HttpException(`Failed to get users: ${error.message}`, 400);
+    // Check error Type
+    if (!(error instanceof Error)) {
+        throw new HttpException('Encountered unknown error type', 500);
     }
-    else {
-        console.log(error);
-        throw new HttpException('Unknown error occured', 500);
+    // Check for known errors
+    if (error.message.includes('E11000')) {
+        throw new HttpException('Object with that ID already exists', 500);
     }
+    // Catch all unknown / unthought of errors
+    throw new HttpException('Unknown error occurred', 500);
 }
 exports.ErrorHandler = ErrorHandler;

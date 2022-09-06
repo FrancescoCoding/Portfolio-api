@@ -1,11 +1,12 @@
-import { Response, Request } from 'express';
+import { Response, Request, NextFunction } from 'express';
 import HttpException from '../utils/httpException';
 import { NODE_ENV } from '../utils/config';
 
 export const errorHandler = (
     err: HttpException,
     req: Request,
-    res: Response
+    res: Response,
+    next: NextFunction
 ): Response => {
     const status = err.status ?? 500;
     const message = err.message ?? 'Something went wrong';
