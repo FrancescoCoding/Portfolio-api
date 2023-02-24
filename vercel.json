@@ -11,10 +11,5 @@
             "src": "/(.*)",
             "dest": "/dist/server.js"
         }
-    ],
-    "env": {
-        "NODE_ENV": "production",
-        "PORT": "3000",
-        "MONGO_URI": "@MONGO_URI"
-    }
+    ]
 }
