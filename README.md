@@ -1,7 +1,7 @@
 # Personal Portfolio - REST API 🦁
 Personal portfolio built with React and other technologies.
 
-Link: [**Live API**](https://francesco-api.herokuapp.com/api/projects)
+Link: [**Live API**](https://portfolio-api-2023-m5kgbmw7h-francescocoding.vercel.app/api/projects)
 
 ### List of Technologies and features: 
 - 🚀 Built with the latest **_Node_** and **_Express_** versions  
