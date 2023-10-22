@@ -10,5 +10,5 @@ Link: [**Live API**](https://portfolio-api-2023-m5kgbmw7h-francescocoding.vercel
 - 💪 Use of the best **_REST practices_**  
 - 📧 **_Postman_** for creating and testing the API  
 - 🚯 User input **_sanitation_**  
-- 🔑 Authentication & JWT Tokens ([jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken), [bcryptjs](https://www.npmjs.com/package/bcryptjs=))
+- 🔑 Authentication & JWT Tokens ([jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken), [bcryptjs](https://www.npmjs.com/package/bcryptjs))
 - 🎯 **_ESLint_** analysis to make the application more robust and production standard
