@@ -20,7 +20,7 @@
         "bcryptjs": "^2.4.3",
         "body-parser": "^1.20.2",
         "dotenv": "^16.0.1",
-        "eslint-config-standard-with-typescript": "^22.0.0",
+        "eslint-config-standard-with-typescript": "^43.0.1",
         "express": "^4.20.0",
         "express-async-handler": "^1.2.0",
         "jsonwebtoken": "^8.5.1",
